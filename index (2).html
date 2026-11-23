@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141a18">
+  <title>太虚逍遥录 · 水墨修仙</title>
+  <style>
+:root{
+  color-scheme:dark;
+  --bg:#111615;
+  --ink-panel:#18201e;
+  --ink-card:#202a27;
+  --ink-soft:#283430;
+  --paper:#efe9d8;
+  --paper-deep:#e3dac3;
+  --ink-text:#232822;
+  --text:#f0eadb;
+  --muted:#aeb5a6;
+  --gold:#d9b878;
+  --gold-dim:#9c814c;
+  --jade:#5ca388;
+  --jade-dark:#2b5949;
+  --crimson:#c45c47;
+  --line:#35423d;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% 0%,#26332f 0%,#121716 65%,#0c100f 100%);
+  color:var(--text);
+  font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.55;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+}
+h1,h2,h3,.serif{font-family:"Songti SC","Noto Serif CJK SC",SimSun,serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:none}
+button:disabled{opacity:.45;cursor:default}
+[hidden]{display:none!important}
+
+/* 主游戏容器：一念逍遥竖屏水墨卷轴比例 */
+.app{
+  width:100%;
+  max-width:540px;
+  min-height:100vh;
+  background:var(--ink-panel);
+  border-left:1px solid var(--line);
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 40px rgba(0,0,0,.65);
+  position:relative;
+}
+
+/* 顶部道号与资源栏 */
+.top-bar{
+  background:linear-gradient(180deg,#1f2926 0%,#161e1c 100%);
+  border-bottom:1px solid var(--line);
+  padding:.75rem .9rem .65rem;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.5rem;
+}
+.avatar-box{display:flex;align-items:center;gap:.65rem}
+.seal-avatar{
+  width:2.65rem;height:2.65rem;border-radius:8px;
+  background:linear-gradient(135deg,#7d462e,#4f2a1b);
+  border:1px solid var(--gold);
+  display:grid;place-items:center;
+  color:#fff2dc;font-weight:700;font-size:.95rem;
+  box-shadow:inset 0 0 0 2px rgba(217,184,120,.3);
+}
+.dao-title{display:flex;align-items:center;gap:.45rem}
+.dao-title strong{font-size:1.05rem;letter-spacing:.05em;color:#fff7e6}
+.realm-badge{
+  font-size:.76rem;padding:.12rem .45rem;border-radius:4px;
+  background:rgba(217,184,120,.16);border:1px solid var(--gold-dim);
+  color:var(--gold);font-weight:600;
+}
+.sub-meta{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.res-pills{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.38rem;
+  margin-top:.6rem;
+}
+.pill{
+  background:#121816;border:1px solid #2c3833;border-radius:6px;
+  padding:.25rem .45rem;display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;
+}
+.pill span{color:var(--muted)}
+.pill strong{color:#f2dfba;font-variant-numeric:tabular-nums}
+
+/* 中央主舞台 */
+.stage{
+  flex:1;
+  padding:.85rem .9rem 5.4rem;
+  display:flex;
+  flex-direction:column;
+  gap:.85rem;
+}
+
+/* 水墨打坐核心圆盘（洞府主视觉） */
+.meditation-altar{
+  background:radial-gradient(circle at 50% 42%,#283933 0%,#18211f 72%);
+  border:1px solid #3c4d46;
+  border-radius:12px;
+  padding:1.1rem .9rem 1rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.altar-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.82rem;color:var(--muted);margin-bottom:.6rem;
+}
+.route-switch{
+  background:#141b19;border:1px solid var(--gold-dim);color:var(--gold);
+  border-radius:99px;padding:.18rem .65rem;font-size:.78rem;
+}
+.qi-orb-wrap{
+  width:138px;height:138px;margin:.3rem auto .75rem;
+  border-radius:50%;
+  border:2px solid rgba(217,184,120,.45);
+  box-shadow:0 0 28px rgba(92,163,136,.22),inset 0 0 22px rgba(217,184,120,.14);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  background:radial-gradient(circle,#263b34 0%,#141c1a 80%);
+  cursor:pointer;
+  transition:transform .12s ease,box-shadow .2s ease;
+  user-select:none;
+}
+.qi-orb-wrap:active{transform:scale(.96)}
+.qi-orb-wrap .orb-label{font-size:.78rem;color:var(--gold);letter-spacing:.1em}
+.qi-orb-wrap .orb-pct{font-size:1.55rem;font-weight:700;color:#fff8e8;font-variant-numeric:tabular-nums;margin:.1rem 0}
+.qi-orb-wrap .orb-hint{font-size:.72rem;color:var(--jade)}
+.progress-track{
+  width:100%;height:7px;background:#101614;border-radius:99px;overflow:hidden;
+  border:1px solid #2b3833;margin:.45rem 0 .85rem;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,#4c8c74,#d9b878);
+  transition:width .25s ease;
+}
+.altar-actions{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+
+/* 通用按钮 */
+.btn{
+  min-height:42px;padding:.45rem .75rem;border-radius:7px;
+  background:var(--ink-soft);border:1px solid #485952;color:var(--text);
+  font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+}
+.btn:hover:not(:disabled){border-color:var(--gold);background:#303f3a}
+.btn.primary{
+  background:linear-gradient(180deg,#3b6e5b 0%,#284f41 100%);
+  border-color:#69a890;color:#fff9eb;
+}
+.btn.gold{
+  background:linear-gradient(180deg,#9c7538 0%,#735322 100%);
+  border-color:#e0c084;color:#fff9eb;
+}
+.btn.danger{
+  background:#5c2b22;border-color:#a85544;color:#ffeae5;
+}
+.btn.sm{min-height:34px;padding:.25rem .55rem;font-size:.8rem}
+
+/* 宣纸卡片（机缘、对话、战斗、秘境） */
+.paper-card{
+  background:var(--paper);
+  color:var(--ink-text);
+  border:1px solid #c5bca4;
+  border-radius:10px;
+  padding:.9rem;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+.paper-card h3{margin:0 0 .35rem;font-size:1.05rem;color:#1e261f;display:flex;justify-content:space-between;align-items:center}
+.paper-card .muted{color:#585e50;font-size:.84rem}
+.paper-input,.paper-select{
+  width:100%;min-height:40px;padding:.4rem .6rem;
+  border:1px solid #9d9986;border-radius:6px;
+  background:#fcf8ee;color:#1f241e;margin-top:.3rem;
+}
+.paper-input::placeholder{color:#757868}
+
+/* 暗色水墨功能卡 */
+.ink-card{
+  background:var(--ink-card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.85rem;
+}
+.ink-card h3{margin:0 0 .5rem;font-size:1rem;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.slot-box{
+  background:#161e1c;border:1px solid #313e39;border-radius:8px;
+  padding:.6rem;display:flex;flex-direction:column;justify-content:space-between;gap:.4rem;
+}
+.slot-box strong{font-size:.9rem;color:#f5ebd6}
+.slot-box small{font-size:.78rem;color:var(--muted)}
+
+/* 提示与战报 */
+.toast{
+  padding:.6rem .75rem;border-radius:7px;font-size:.86rem;
+  background:#1f332c;border-left:3px solid var(--jade);color:#e6f5ee;
+}
+.toast.warn{background:#3a221d;border-left-color:var(--crimson);color:#ffe6e0}
+.ai-reply{
+  margin-top:.65rem;padding:.65rem .75rem;border-radius:7px;
+  background:#e2dac5;border-left:3px solid #355e4e;color:#1f261f;
+  font-size:.9rem;line-height:1.55;
+}
+
+/* 实时传音简报（底部固定预览） */
+.ticker-box{
+  background:#141a18;border:1px solid #2d3834;border-radius:8px;
+  padding:.55rem .7rem;font-size:.8rem;
+}
+.ticker-head{display:flex;justify-content:space-between;color:var(--gold);margin-bottom:.3rem;font-weight:600}
+.ticker-list{list-style:none;margin:0;padding:0;display:grid;gap:.28rem;max-height:125px;overflow-y:auto}
+.ticker-list li{color:#cfd4c8;border-bottom:1px dashed #28332f;padding-bottom:.22rem}
+.ticker-list li:last-child{border:none;padding:0}
+.ticker-list time{color:var(--gold-dim);margin-right:.35rem}
+
+/* 底部一念逍遥式五维导航栏 */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  max-width:540px;
+  background:linear-gradient(180deg,#19221f 0%,#111715 100%);
+  border-top:1px solid #3c4a44;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding-bottom:env(safe-area-inset-bottom);
+  z-index:30;
+}
+.nav-btn{
+  background:none;color:var(--muted);
+  padding:.52rem .2rem .48rem;
+  display:flex;flex-direction:column;align-items:center;gap:.12rem;
+  font-size:.76rem;font-weight:600;
+}
+.nav-btn .ico{font-size:1.12rem;font-family:serif}
+.nav-btn.active{
+  color:var(--gold);
+  background:radial-gradient(circle at 50% 0%,rgba(217,184,120,.16),transparent 75%);
+}
+.tag-pill{
+  font-size:.74rem;padding:.1rem .45rem;border-radius:4px;
+  background:#283832;color:#a8dec7;border:1px solid #436658;
+}
+.tag-pill.local{background:#333026;color:#d6c9a5;border-color:#5c5540}
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- 顶部道号与属性栏 -->
+  <header class="top-bar">
+    <div class="top-row">
+      <div class="avatar-box">
+        <div class="seal-avatar serif" id="avatar-seal">散修</div>
+        <div>
+          <div class="dao-title">
+            <strong id="player-name" class="serif">太虚散人</strong>
+            <span class="realm-badge" id="realm-badge">炼气一层</span>
+          </div>
+          <div class="sub-meta" id="dao-clock">道历元年 · 清虚界</div>
+        </div>
+      </div>
+      <span class="tag-pill local" id="ai-badge">本地推演</span>
+    </div>
+    <div class="res-pills">
+      <div class="pill"><span>灵石</span><strong id="res-stones">20</strong></div>
+      <div class="pill"><span>气血</span><strong id="res-hp">100/100</strong></div>
+      <div class="pill"><span>战力</span><strong id="res-power">18</strong></div>
+      <div class="pill"><span>寿元</span><strong id="res-age">18/100</strong></div>
+    </div>
+  </header>
+
+  <!-- 中央动态舞台 -->
+  <main class="stage">
+    <div id="global-toast" class="toast" hidden></div>
+
+    <!-- 标签页 1：洞府（打坐、渡劫突破、药园、炼丹炼器） -->
+    <section id="tab-cave" class="tab-view" style="display:grid;gap:.85rem">
+      <div class="meditation-altar">
+        <div class="altar-head">
+          <span id="cave-level">洞府：青竹小筑（聚灵一阶）</span>
+          <button type="button" class="route-switch" id="toggle-path">主修：法修</button>
+        </div>
+        <div class="qi-orb-wrap" id="orb-meditate" title="点击吐纳周天">
+          <span class="orb-label">周天吐纳</span>
+          <span class="orb-pct" id="qi-pct">0%</span>
+          <span class="orb-hint" id="qi-gain-hint">点击吸纳灵气</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="qi-bar" style="width:0%"></div></div>
+        <div class="altar-actions">
+          <button type="button" class="btn primary" id="btn-meditate">吐纳半载（+修为）</button>
+          <button type="button" class="btn gold" id="btn-breakthrough">冲击瓶颈 · 突破</button>
+        </div>
+      </div>
+
+      <!-- 洞府药园 -->
+      <div class="ink-card">
+        <h3><span>洞府药园</span><small style="color:var(--muted);font-weight:400" id="garden-status">可播种灵草</small></h3>
+        <div class="grid-2" id="garden-slots"></div>
+      </div>
+
+      <!-- 丹炉与器鼎 -->
+      <div class="ink-card">
+        <h3><span>丹炉与器鼎</span><small style="color:var(--muted);font-weight:400">消耗灵草/矿石炼制</small></h3>
+        <div class="grid-2" id="craft-list"></div>
+      </div>
+    </section>
+
+    <!-- 标签页 2：历练（大地图秘境探索 + AI高自由度奇遇 + 实时斗法） -->
+    <section id="tab-explore" class="tab-view" hidden style="display:grid;gap:.85rem">
+      <!-- 战斗面板（遇怪时显示） -->
+      <div id="combat-box" class="paper-card" hidden>
+        <h3><span id="enemy-name">妖兽</span><span id="enemy-hp" style="color:#a83824;font-size:.9rem">气血 50</span></h3>
+        <p class="muted" id="enemy-intent" style="margin:.35rem 0 .7rem">妖兽正在蓄势。</p>
+        <div class="grid-2">
+          <button type="button" class="btn primary" data-move="artifact">祭出法宝强攻</button>
+          <button type="button" class="btn" data-move="art">施展护体神通</button>
+          <button type="button" class="btn" data-move="pill">吞服回气丹</button>
+          <button type="button" class="btn danger" data-move="flee">御风遁走</button>
+        </div>
+      </div>
+
+      <!-- 秘境选择与自由行动 -->
+      <div id="explore-normal" style="display:grid;gap:.85rem">
+        <div class="ink-card">
+          <h3><span>云游秘境</span><small style="color:var(--muted);font-weight:400" id="cur-region-label">当前：清虚山门</small></h3>
+          <div class="grid-2" id="region-list"></div>
+        </div>
+
+        <div class="paper-card">
+          <h3><span>自由历练 · 自行抉择</span><span style="font-size:.78rem;color:#3d6655" id="explore-mode-tip">自由输入行动</span></h3>
+          <p class="muted" id="region-desc">山门外灵气稀薄，偶有采药散修与低阶灵兽出没。</p>
+          <div style="display:flex;gap:.45rem;margin-top:.65rem">
+            <button type="button" class="btn primary" id="btn-quick-explore" style="flex:1">神识探查一圈</button>
+            <button type="button" class="btn" id="btn-heal">调息疗伤</button>
+          </div>
+          <form id="custom-explore-form" style="margin-top:.75rem;padding-top:.7rem;border-top:1px dashed #bfb69f">
+            <label style="font-size:.82rem;font-weight:600;color:#374035">你想在此地做什么？（AI 实时推演结果与奖惩）</label>
+            <div style="display:flex;gap:.45rem;margin-top:.3rem">
+              <input id="explore-action-input" class="paper-input" style="margin:0" maxlength="200" placeholder="例如：潜入深处偷采灵草 / 设伏拦截魔修 / 参悟石壁剑痕">
+              <button type="submit" class="btn gold" id="btn-custom-explore" style="white-space:nowrap">行事</button>
+            </div>
+          </form>
+          <div id="explore-result" class="ai-reply" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 标签页 3：坊市与仙友（自由交易 + AI 仙友自由交互） -->
+    <section id="tab-market" class="tab-view" hidden style="display:grid;gap:.85rem">
+      <div class="ink-card">
+        <h3><span>万宝楼坊市</span><small style="color:var(--muted);font-weight:400">丹药 · 灵种 · 图纸</small></h3>
+        <div class="grid-2" id="shop-list"></div>
+      </div>
+
+      <div class="paper-card">
+        <h3><span>仙友传音 · 自由交涉</span><span style="font-size:.78rem;color:#3d6655">可交易/拜师/套话</span></h3>
+        <div style="display:grid;grid-template-columns:115px 1fr;gap:.45rem;margin-top:.4rem">
+          <select id="npc-select" class="paper-select" style="margin:0"></select>
+          <input id="npc-msg" class="paper-input" style="margin:0" maxlength="240" placeholder="随便聊，或谈条件买丹方、拜师、切磋">
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.55rem">
+          <small class="muted" id="npc-bio">清虚观传功长老</small>
+          <button type="button" class="btn primary sm" id="btn-npc-talk">传音</button>
+        </div>
+        <div id="npc-reply" class="ai-reply" hidden></div>
+      </div>
+    </section>
+
+    <!-- 标签页 4：储物与法宝（背包、装备法宝、功法境界） -->
+    <section id="tab-bag" class="tab-view" hidden style="display:grid;gap:.85rem">
+      <div class="ink-card">
+        <h3><span>本命法宝与神通</span><small style="color:var(--muted);font-weight:400">提升斗法战力</small></h3>
+        <div class="grid-2" id="gear-list"></div>
+      </div>
+      <div class="ink-card">
+        <h3><span>储物袋</span><small style="color:var(--muted);font-weight:400" id="bag-count">0 件物品</small></h3>
+        <div class="grid-2" id="bag-list"></div>
+      </div>
+    </section>
+
+    <!-- 标签页 5：天道设置（沿用你的自定义模型 + Cloudflare 跨域中转 + 存档导入导出） -->
+    <section id="tab-settings" class="tab-view" hidden style="display:grid;gap:.85rem">
+      <div class="paper-card">
+        <h3><span>天道神识 · 大模型连接</span><span id="model-conn-tag" style="font-size:.8rem;color:#3b6654">未连接</span></h3>
+        <p class="muted" id="model-status-text" style="margin:.3rem 0 .6rem">已自动保留你之前的代理配置。连接后，秘境自由行事与仙友对话将由大模型实时演算。</p>
+        <form id="model-form" style="display:grid;gap:.55rem">
+          <div>
+            <label style="font-size:.83rem;font-weight:600">服务平台预设</label>
+            <select id="model-provider" class="paper-select">
+              <option value="zhipu">智谱国内 (open.bigmodel.cn)</option>
+              <option value="zai">Z.ai 海外 (api.z.ai)</option>
+              <option value="deepseek">DeepSeek (api.deepseek.com)</option>
+              <option value="custom">自定义 OpenAI 兼容接口</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.83rem;font-weight:600">模型名称（可自由填写任意模型 ID）</label>
+            <input id="model-name" class="paper-input" value="glm-5.3-flash" placeholder="例如 glm-5.3-flash、glm-4-flash、deepseek-chat" required>
+          </div>
+          <div>
+            <label style="font-size:.83rem;font-weight:600">API Key</label>
+            <input id="model-key" type="password" class="paper-input" placeholder="粘贴对应开放平台的 API Key" required>
+          </div>
+          <div>
+            <label style="font-size:.83rem;font-weight:600">接口 Base URL</label>
+            <input id="model-base-url" type="url" class="paper-input" value="https://open.bigmodel.cn/api/paas/v4" required>
+          </div>
+          <div>
+            <label style="font-size:.83rem;font-weight:600">跨域中转网址（连智谱必填，直连留空）</label>
+            <input id="model-proxy" type="url" class="paper-input" placeholder="例如 https://glm-proxy.xxx.workers.dev">
+          </div>
+          <div style="display:flex;gap:.5rem;margin-top:.2rem">
+            <button type="submit" class="btn primary" id="btn-connect" style="flex:1">验证并连接</button>
+            <button type="button" class="btn danger" id="btn-disconnect" hidden>断开</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="ink-card">
+        <h3><span>道号与存档管理</span></h3>
+        <div style="display:flex;gap:.45rem;margin-bottom:.65rem">
+          <input id="rename-input" class="paper-input" style="margin:0;background:#141a18;color:#f0eadb;border-color:#3b4a44" maxlength="12" placeholder="修改你的修仙道号">
+          <button type="button" class="btn" id="btn-rename">改名</button>
+        </div>
+        <div class="grid-2">
+          <button type="button" class="btn" id="btn-export">导出存档码</button>
+          <button type="button" class="btn" id="btn-import">导入存档码</button>
+          <button type="button" class="btn danger" id="btn-reset" style="grid-column:1/-1">兵解重修（重置新档）</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部常驻修仙纪事简报 -->
+    <section class="ticker-box">
+      <div class="ticker-head"><span>修仙手札</span><span id="world-event-hint">天地灵气平稳</span></div>
+      <ul class="ticker-list" id="log-list"></ul>
+    </section>
+  </main>
+
+  <!-- 底部五栏导航 -->
+  <nav class="bottom-nav">
+    <button type="button" class="nav-btn active" data-tab="cave"><span class="ico">炉</span><span>洞府</span></button>
+    <button type="button" class="nav-btn" data-tab="explore"><span class="ico">剑</span><span>历练</span></button>
+    <button type="button" class="nav-btn" data-tab="market"><span class="ico">坊</span><span>坊市</span></button>
+    <button type="button" class="nav-btn" data-tab="bag"><span class="ico">囊</span><span>储物</span></button>
+    <button type="button" class="nav-btn" data-tab="settings"><span class="ico">道</span><span>天道</span></button>
+  </nav>
+</div>
+
+<script type="module">
+const SAVE_KEY = 'taixu_xiaoyao_save_v1';
+const MODEL_KEY = 'taixu_wendaolu_model_v1';
+const PROXY_CACHE_KEY = 'taixu_wendaolu_proxy_v1';
+
+const providers = {
+  zhipu: { label: '智谱国内', baseUrl: 'https://open.bigmodel.cn/api/paas/v4', defaultModel: 'glm-5.3-flash' },
+  zai: { label: 'Z.ai 海外', baseUrl: 'https://api.z.ai/api/paas/v4', defaultModel: 'glm-5.3-flash' },
+  deepseek: { label: 'DeepSeek', baseUrl: 'https://api.deepseek.com', defaultModel: 'deepseek-chat' },
+  custom: { label: '自定义接口', baseUrl: '', defaultModel: '' },
+};
+
+const REALMS = [
+  '炼气一层','炼气二层','炼气三层','炼气四层','炼气五层','炼气六层','炼气七层','炼气八层','炼气九层',
+  '筑基前期','筑基中期','筑基后期','结丹前期','结丹中期','结丹后期','元婴真君','化神大能'
+];
+
+const REGIONS = {
+  gate: { name: '清虚山门', reqRealm: 0, desc: '清虚观外山灵脉，适合新入门弟子采药试炼。', enemy: { name: '铁背妖狼', hp: 42, atk: 9, loot: { stones: 6, item: '凝气草' } } },
+  swamp: { name: '迷雾沼泽', reqRealm: 3, desc: '瘴气弥漫的古泽，传闻深处藏有筑基灵物与古修遗骸。', enemy: { name: '沼泽毒蛟', hp: 85, atk: 18, loot: { stones: 15, item: '玄铁矿' } } },
+  desert: { name: '落日荒漠', reqRealm: 9, desc: '大漠黄沙之下埋着上古宗门废墟，金丹修士亦需步步小心。', enemy: { name: '沙暴傀儡', hp: 160, atk: 34, loot: { stones: 32, item: '紫猴花' } } },
+  abyss: { name: '陨仙深渊', reqRealm: 12, desc: '天地灵气狂暴之地，唯有结丹以上大修方敢踏足。', enemy: { name: '渊底魔魂', hp: 310, atk: 62, loot: { stones: 70, item: '天雷竹' } } },
+};
+
+const NPCS = {
+  master: { name: '清虚道人', role: '宗门长老', bio: '性格古板却护短，通晓各大境界突破诀窍。' },
+  merchant: { name: '苏婉儿', role: '万宝楼执事', bio: '八面玲珑的商会管事，只要灵石到位什么都敢收。' },
+  rogue: { name: '厉飞雨', role: '黑市散修', bio: '刀口舔血的独行客，常掌握秘境偏门情报。' },
+  fairy: { name: '林月如', role: '内门师姐', bio: '剑心通明的女修，偶尔会指点师弟剑诀或交换灵草。' },
+};
+
+const RECIPES = [
+  { id: 'qi_pill', name: '凝气丹', desc: '服下立即增加 45% 当前境界修为', cost: { '凝气草': 2 }, out: '凝气丹' },
+  { id: 'heal_pill', name: '回春丹', desc: '斗法或平时恢复 60 点气血', cost: { '凝气草': 1 }, out: '回春丹' },
+  { id: 'zhuji_pill', name: '筑基丹', desc: '炼气九层突破筑基时提高 35% 成功率', cost: { '紫猴花': 2, '凝气草': 2 }, out: '筑基丹' },
+  { id: 'qingfeng_sword', name: '青锋飞剑', desc: '法宝·装备后战力 +18', cost: { '玄铁矿': 2 }, out: '青锋飞剑', isGear: true, power: 18 },
+];
+
+const SHOP_ITEMS = [
+  { name: '凝气草', price: 6, desc: '炼制凝气丹的基础灵草' },
+  { name: '紫猴花', price: 18, desc: '炼制筑基丹的珍稀主药' },
+  { name: '玄铁矿', price: 12, desc: '锻造飞剑法宝的灵材' },
+  { name: '筑基丹', price: 45, desc: '突破大境界的护道灵丹' },
+];
+
+function defaultState() {
+  return {
+    name: '太虚散人',
+    year: 1,
+    age: 18,
+    maxAge: 100,
+    realm: 0,
+    qi: 20,
+    path: '法修',
+    stones: 25,
+    hp: 100,
+    maxHp: 100,
+    basePower: 16,
+    region: 'gate',
+    gear: { weapon: null, relic: null },
+    bag: { '凝气草': 2, '凝气丹': 1, '回春丹': 1 },
+    garden: [
+      { seed: '凝气草', matureYear: 2 },
+      { seed: null, matureYear: 0 }
+    ],
+    fight: null,
+    npcNotes: [],
+    logs: [
+      { year: 1, text: '你踏入清虚界，开辟青竹洞府，正式踏上长生仙途。' }
+    ]
+  };
+}
+
+let state = loadState();
+let busy = false;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.realm === 'number' && parsed.bag) return parsed;
+    }
+  } catch {}
+  const fresh = defaultState();
+  saveState(fresh);
+  return fresh;
+}
+function saveState(s = state) {
+  localStorage.setItem(SAVE_KEY, JSON.stringify(s));
+}
+function addLog(text) {
+  state.logs.unshift({ year: state.year, text });
+  if (state.logs.length > 60) state.logs.length = 60;
+}
+function showToast(text, warn = false) {
+  const el = document.getElementById('global-toast');
+  if (!text) { el.hidden = true; return; }
+  el.textContent = text;
+  el.className = warn ? 'toast warn' : 'toast';
+  el.hidden = false;
+}
+
+function calcPower() {
+  let p = state.basePower + state.realm * 14 + (state.path === '体修' ? 8 : 4);
+  if (state.gear.weapon === '青锋飞剑') p += 18;
+  if (state.gear.weapon === '天雷神剑') p += 45;
+  return p;
+}
+
+function advanceTime(years = 1) {
+  state.year += years;
+  state.age += years;
+  if (state.age >= state.maxAge) {
+    addLog('寿元耗尽，你坐化于洞府之中，转世重修。');
+    state = defaultState();
+    showToast('寿元已尽，已自动开启新一世轮回！', true);
+  }
+}
+
+/* 模型与代理读取（完全兼容你之前保存的 Key 与 Cloudflare Workers 地址） */
+function normalizeUrl(raw) {
+  if (typeof raw !== 'string') return '';
+  const t = raw.trim().replace(/\/+$/, '');
+  if (!t) return '';
+  try {
+    const u = new URL(t);
+    return u.protocol === 'https:' ? u.origin + u.pathname.replace(/\/+$/, '') : '';
+  } catch { return ''; }
+}
+function resolveTargetBase(baseUrl, proxy) {
+  const b = normalizeUrl(baseUrl);
+  if (!b) return '';
+  const p = normalizeUrl(proxy);
+  if (!p) return b;
+  try {
+    return p + new URL(b).pathname.replace(/\/+$/, '');
+  } catch {
+    return p + '/api/paas/v4';
+  }
+}
+function getSavedModel() {
+  try {
+    const raw = localStorage.getItem(MODEL_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw);
+    if (p && p.modelName && p.key && p.baseUrl) return p;
+  } catch {}
+  return null;
+}
+async function callAI(systemPrompt, userPayload) {
+  const cfg = getSavedModel();
+  if (!cfg) return null;
+  const targetBase = resolveTargetBase(cfg.baseUrl, cfg.proxy);
+  const origin = new URL(targetBase).origin;
+  const isZai = origin === 'https://api.z.ai';
+  const isDeepseek = origin === 'https://api.deepseek.com';
+  const res = await fetch(targetBase + '/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + cfg.key },
+    body: JSON.stringify({
+      model: cfg.modelName,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: JSON.stringify(userPayload) }
+      ],
+      max_tokens: 900,
+      response_format: { type: 'json_object' },
+      ...(isZai ? { reasoning_effort: 'low' } : isDeepseek ? { thinking: { type: 'disabled' } } : {})
+    }),
+    signal: AbortSignal.timeout(25000),
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  const raw = (data.choices?.[0]?.message?.content || '').replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
+  return JSON.parse(raw);
+}
+
+/* 洞府与修炼逻辑 */
+function meditate(years) {
+  const gain = years === 0 ? 6 : (16 + Math.floor(Math.random() * 10));
+  state.qi = Math.min(100, state.qi + gain);
+  state.hp = Math.min(state.maxHp, state.hp + (years === 0 ? 4 : 18));
+  if (years > 0) {
+    advanceTime(years);
+    addLog(`你在洞府闭关吐纳半载，修为精进 ${gain}%。`);
+  }
+  showToast(`吐纳周天，灵气汇聚，修为 +${gain}%`);
+  saveState(); render();
+}
+
+function attemptBreakthrough() {
+  if (state.qi < 100) {
+    showToast('当前境界修为尚未圆满（需达到 100%），请继续吐纳或服丹。', true);
+    return;
+  }
+  if (state.realm >= REALMS.length - 1) {
+    showToast('你已登临此界绝顶！');
+    return;
+  }
+  const isMajor = (state.realm + 1) % 9 === 0;
+  let rate = isMajor ? 55 : 88;
+  let usedPill = false;
+  if (isMajor && (state.bag['筑基丹'] || 0) > 0) {
+    state.bag['筑基丹'] -= 1;
+    rate += 35;
+    usedPill = true;
+  }
+  advanceTime(1);
+  if (Math.random() * 100 < rate) {
+    state.realm += 1;
+    state.qi = 0;
+    state.maxHp += isMajor ? 80 : 25;
+    state.hp = state.maxHp;
+    if (isMajor) state.maxAge += 100;
+    const msg = `雷劫散去，你成功突破至【${REALMS[state.realm]}】${usedPill ? '（消耗1枚筑基丹）' : ''}！`;
+    addLog(msg);
+    showToast(msg);
+  } else {
+    state.qi = 65;
+    state.hp = Math.max(15, Math.floor(state.hp * 0.5));
+    const msg = `心魔反噬，冲关失败！修为跌落至 65%，气血受损。`;
+    addLog(msg);
+    showToast(msg, true);
+  }
+  saveState(); render();
+}
+
+/* 秘境探索（本地 + AI 高自由度裁决） */
+function quickExplore() {
+  const reg = REGIONS[state.region];
+  advanceTime(1);
+  const roll = Math.random();
+  if (roll < 0.45) {
+    state.fight = { ...reg.enemy, maxHp: reg.enemy.hp };
+    addLog(`你在${reg.name}遭遇了【${reg.enemy.name}】！`);
+    showToast(`遭遇妖兽【${reg.enemy.name}】，准备迎战！`, true);
+  } else if (roll < 0.82) {
+    const stones = 4 + Math.floor(Math.random() * (6 + state.realm * 2));
+    const herb = reg.enemy.loot.item;
+    state.stones += stones;
+    state.bag[herb] = (state.bag[herb] || 0) + 1;
+    const msg = `你在${reg.name}一处隐秘石缝中采得【${herb}】x1，并拾获 ${stones} 枚灵石！`;
+    addLog(msg);
+    showToast(msg);
+  } else {
+    const qiGain = 14;
+    state.qi = Math.min(100, state.qi + qiGain);
+    const msg = `你在${reg.name}观摩古修遗留剑痕，心有所悟，修为 +${qiGain}%。`;
+    addLog(msg);
+    showToast(msg);
+  }
+  saveState(); render();
+}
+
+async function customExplore(actionText) {
+  if (!actionText.trim() || busy) return;
+  const reg = REGIONS[state.region];
+  const resBox = document.getElementById('explore-result');
+  if (!getSavedModel()) {
+    advanceTime(1);
+    const stones = 5 + Math.floor(Math.random() * 8);
+    state.stones += stones;
+    const msg = `【本地推演】你在${reg.name}尝试“${actionText}”，一番搜寻后带回了 ${stones} 枚灵石。（连接天道大模型可解锁全自由剧情演算）`;
+    resBox.textContent = msg; resBox.hidden = false;
+    addLog(msg); saveState(); render();
+    return;
+  }
+  busy = true;
+  document.getElementById('btn-custom-explore').disabled = true;
+  resBox.textContent = '天道正在推演此番因果…';
+  resBox.hidden = false;
+  try {
+    const sys = [
+      '你是水墨修仙游戏《太虚逍遥录》的天道旁白。根据玩家当前境界、所在秘境和自由输入的行动，推演一段极具修仙小说代入感的结果（60~120字），并给出合理的数值奖惩。',
+      '输出严格 JSON：{"story":"叙事文本","stonesDelta":整数(-20到30),"qiDelta":整数(-10到25),"hpDelta":整数(-40到30),"itemGain":"凝气草或紫猴花或玄铁矿或空字符串","triggerFight":布尔值}',
+      '切忌无脑白给神装，风险与机缘并存。'
+    ].join('
+');
+    const out = await callAI(sys, {
+      player: { name: state.name, realm: REALMS[state.realm], path: state.path, hp: state.hp, power: calcPower(), stones: state.stones },
+      region: reg,
+      action: actionText
+    });
+    advanceTime(1);
+    const sDelta = Math.max(-state.stones, Math.min(40, Number(out.stonesDelta) || 0));
+    const qDelta = Math.max(-20, Math.min(30, Number(out.qiDelta) || 0));
+    const hDelta = Math.max(-state.hp + 5, Math.min(40, Number(out.hpDelta) || 0));
+    state.stones += sDelta;
+    state.qi = Math.max(0, Math.min(100, state.qi + qDelta));
+    state.hp = Math.max(5, Math.min(state.maxHp, state.hp + hDelta));
+    let bonus = [];
+    if (sDelta) bonus.push(`灵石 ${sDelta > 0 ? '+' + sDelta : sDelta}`);
+    if (qDelta) bonus.push(`修为 ${qDelta > 0 ? '+' + qDelta : qDelta}%`);
+    if (hDelta) bonus.push(`气血 ${hDelta > 0 ? '+' + hDelta : hDelta}`);
+    if (out.itemGain && ['凝气草','紫猴花','玄铁矿','筑基丹','凝气丹'].includes(out.itemGain)) {
+      state.bag[out.itemGain] = (state.bag[out.itemGain] || 0) + 1;
+      bonus.push(`获得【${out.itemGain}】`);
+    }
+    if (out.triggerFight) {
+      state.fight = { ...reg.enemy, maxHp: reg.enemy.hp };
+      bonus.push(`惊动了【${reg.enemy.name}】！`);
+    }
+    const finalStr = out.story + (bonus.length ? `
+【因果结算：${bonus.join(' · ')}】` : '');
+    resBox.textContent = finalStr;
+    addLog(`${reg.name}奇遇：${out.story.slice(0, 38)}…`);
+    saveState();
+  } catch (e) {
+    resBox.textContent = '天机混沌（模型请求失败：' + e.message + '），请稍后再试。';
+  } finally {
+    busy = false;
+    document.getElementById('btn-custom-explore').disabled = false;
+    render();
+  }
+}
+
+/* 斗法系统 */
+function handleCombat(move) {
+  const f = state.fight;
+  if (!f) return;
+  const pwr = calcPower();
+  if (move === 'flee') {
+    state.fight = null;
+    showToast('你化作一道遁光撤出了战斗。');
+    saveState(); render(); return;
+  }
+  if (move === 'pill') {
+    if ((state.bag['回春丹'] || 0) <= 0) { showToast('储物袋中没有回春丹！', true); return; }
+    state.bag['回春丹'] -= 1;
+    state.hp = Math.min(state.maxHp, state.hp + 60);
+    showToast('吞服回春丹，气血恢复 60 点！');
+    saveState(); render(); return;
+  }
+  const dmg = move === 'artifact' ? Math.floor(pwr * (1.1 + Math.random() * 0.3)) : Math.floor(pwr * 0.75);
+  f.hp -= dmg;
+  if (f.hp <= 0) {
+    const stones = f.loot.stones;
+    const item = f.loot.item;
+    state.stones += stones;
+    state.bag[item] = (state.bag[item] || 0) + 1;
+    state.fight = null;
+    const msg = `斩杀【${f.name}】，缴获 ${stones} 枚灵石与【${item}】！`;
+    addLog(msg); showToast(msg);
+  } else {
+    const taken = Math.max(2, Math.floor(f.atk * (move === 'art' ? 0.45 : 1)));
+    state.hp = Math.max(0, state.hp - taken);
+    if (state.hp === 0) {
+      state.hp = 20; state.fight = null;
+      const msg = `你不敌【${f.name}】，重伤遁回洞府休养！`;
+      addLog(msg); showToast(msg, true);
+    } else {
+      showToast(`你祭出神通打掉对方 ${dmg} 气血，自身受创 ${taken} 点。`);
+    }
+  }
+  saveState(); render();
+}
+
+/* 仙友自由传音 */
+async function talkToNpc() {
+  const npcId = document.getElementById('npc-select').value;
+  const msgInput = document.getElementById('npc-msg');
+  const text = msgInput.value.trim();
+  if (!text || busy) return;
+  const npc = NPCS[npcId];
+  const replyBox = document.getElementById('npc-reply');
+  if (!getSavedModel()) {
+    const localLines = {
+      master: '修仙切忌急功近利，灵气圆满再冲关，大境界突破务必备好筑基丹。',
+      merchant: '道友若有秘境采来的多余灵草，尽管拿来万宝楼换灵石。',
+      rogue: '迷雾沼泽深处虽然凶险，但玄铁矿和古修遗宝可比山门外多得多。',
+      fairy: '剑修重在锋芒，若能凑齐两块玄铁矿炼出青锋飞剑，战力定能大增。'
+    };
+    replyBox.textContent = `${npc.name}：“${localLines[npcId]}”`;
+    replyBox.hidden = false;
+    msgInput.value = '';
+    return;
+  }
+  busy = true;
+  document.getElementById('btn-npc-talk').disabled = true;
+  replyBox.textContent = `${npc.name}正在神识传音…`;
+  replyBox.hidden = false;
+  try {
+    const sys = [
+      '你扮演修仙世界中的人物与玩家传音交谈。用古风大白话回复2~3句，符合人设。',
+      '如果玩家诚心请教或打动了你，可以偶尔赠送一点小礼物（stonesDelta 0~10 或 qiDelta 0~10）。',
+      '输出严格 JSON：{"reply":"对话内容","stonesDelta":整数,"qiDelta":整数}'
+    ].join('
+');
+    const out = await callAI(sys, {
+      npc,
+      player: { name: state.name, realm: REALMS[state.realm], path: state.path, stones: state.stones },
+      recent: state.npcNotes.filter(n => n.npc === npcId).slice(-4),
+      message: text
+    });
+    const sD = Math.max(0, Math.min(12, Number(out.stonesDelta) || 0));
+    const qD = Math.max(0, Math.min(12, Number(out.qiDelta) || 0));
+    state.stones += sD;
+    state.qi = Math.min(100, state.qi + qD);
+    state.npcNotes.push({ npc: npcId, q: text, a: out.reply });
+    if (state.npcNotes.length > 30) state.npcNotes.shift();
+    let extra = [];
+    if (sD) extra.push(`获赠 ${sD} 灵石`);
+    if (qD) extra.push(`受指点修为 +${qD}%`);
+    replyBox.textContent = `${npc.name}：“${out.reply}”` + (extra.length ? `（${extra.join('，')}）` : '');
+    addLog(`与${npc.name}传音论道。`);
+    msgInput.value = '';
+    saveState();
+  } catch (e) {
+    replyBox.textContent = '传音符灵力波动（' + e.message + '），未能传达到对方。';
+  } finally {
+    busy = false;
+    document.getElementById('btn-npc-talk').disabled = false;
+    render();
+  }
+}
+
+/* 界面渲染 */
+function render() {
+  document.getElementById('player-name').textContent = state.name;
+  document.getElementById('avatar-seal').textContent = state.path;
+  document.getElementById('realm-badge').textContent = REALMS[state.realm];
+  document.getElementById('dao-clock').textContent = `道历 ${state.year} 年 · ${REGIONS[state.region].name}`;
+  document.getElementById('res-stones').textContent = state.stones;
+  document.getElementById('res-hp').textContent = `${state.hp}/${state.maxHp}`;
+  document.getElementById('res-power').textContent = calcPower();
+  document.getElementById('res-age').textContent = `${state.age}/${state.maxAge}`;
+
+  const cfg = getSavedModel();
+  const badge = document.getElementById('ai-badge');
+  badge.textContent = cfg ? cfg.modelName : '本地推演';
+  badge.className = cfg ? 'tag-pill' : 'tag-pill local';
+
+  // 洞府页
+  document.getElementById('toggle-path').textContent = `主修：${state.path}`;
+  document.getElementById('qi-pct').textContent = `${state.qi}%`;
+  document.getElementById('qi-bar').style.width = `${state.qi}%`;
+  document.getElementById('btn-breakthrough').disabled = state.qi < 100;
+
+  // 药园
+  const gWrap = document.getElementById('garden-slots');
+  gWrap.innerHTML = '';
+  state.garden.forEach((slot, idx) => {
+    const box = document.createElement('div');
+    box.className = 'slot-box';
+    if (!slot.seed) {
+      box.innerHTML = `<strong>灵田 ${idx + 1}（空闲）</strong><small>可种凝气草或紫猴花</small>`;
+      const b1 = document.createElement('button');
+      b1.className = 'btn sm primary';
+      b1.textContent = (state.bag['凝气草'] || 0) > 0 ? '种凝气草' : '买种并播种(4灵石)';
+      b1.onclick = () => {
+        if ((state.bag['凝气草'] || 0) > 0) state.bag['凝气草'] -= 1;
+        else if (state.stones >= 4) state.stones -= 4;
+        else { showToast('灵石与灵种均不足！', true); return; }
+        slot.seed = '凝气草'; slot.matureYear = state.year + 2;
+        saveState(); render();
+      };
+      box.appendChild(b1);
+    } else {
+      const ready = state.year >= slot.matureYear;
+      box.innerHTML = `<strong>${slot.seed}</strong><small>${ready ? '灵光四溢，已成熟！' : `还需 ${slot.matureYear - state.year} 年成熟`}</small>`;
+      const b2 = document.createElement('button');
+      b2.className = ready ? 'btn sm gold' : 'btn sm';
+      b2.textContent = ready ? '采收 (+3株)' : '催熟 (+1年)';
+      b2.onclick = () => {
+        if (ready) {
+          state.bag[slot.seed] = (state.bag[slot.seed] || 0) + 3;
+          showToast(`采收成熟【${slot.seed}】x3！`);
+          slot.seed = null;
+        } else {
+          advanceTime(1);
+        }
+        saveState(); render();
+      };
+      box.appendChild(b2);
+    }
+    gWrap.appendChild(box);
+  });
+
+  // 炼丹炼器
+  const cWrap = document.getElementById('craft-list');
+  cWrap.innerHTML = '';
+  RECIPES.forEach(r => {
+    const box = document.createElement('div');
+    box.className = 'slot-box';
+    const costStr = Object.entries(r.cost).map(([k, v]) => `${k}x${v}`).join(' ');
+    const can = Object.entries(r.cost).every(([k, v]) => (state.bag[k] || 0) >= v);
+    box.innerHTML = `<strong>${r.name}</strong><small>${r.desc}<br>耗材：${costStr}</small>`;
+    const btn = document.createElement('button');
+    btn.className = can ? 'btn sm primary' : 'btn sm';
+    btn.disabled = !can;
+    btn.textContent = r.isGear ? '开炉炼器' : '开炉炼丹';
+    btn.onclick = () => {
+      Object.entries(r.cost).forEach(([k, v]) => state.bag[k] -= v);
+      state.bag[r.out] = (state.bag[r.out] || 0) + 1;
+      if (r.isGear && !state.gear.weapon) state.gear.weapon = r.out;
+      const msg = `炉火纯青，成功炼成【${r.out}】！`;
+      addLog(msg); showToast(msg); saveState(); render();
+    };
+    box.appendChild(btn);
+    cWrap.appendChild(box);
+  });
+
+  // 历练页
+  document.getElementById('combat-box').hidden = !state.fight;
+  document.getElementById('explore-normal').hidden = Boolean(state.fight);
+  if (state.fight) {
+    document.getElementById('enemy-name').textContent = state.fight.name;
+    document.getElementById('enemy-hp').textContent = `气血 ${state.fight.hp}/${state.fight.maxHp}`;
+    document.getElementById('enemy-intent').textContent = `${state.fight.name}凶光毕露，随时准备扑杀（攻击力 ${state.fight.atk}）。`;
+  } else {
+    const curR = REGIONS[state.region];
+    document.getElementById('cur-region-label').textContent = `当前：${curR.name}`;
+    document.getElementById('region-desc').textContent = curR.desc;
+    const rList = document.getElementById('region-list');
+    rList.innerHTML = '';
+    Object.entries(REGIONS).forEach(([id, r]) => {
+      const btn = document.createElement('button');
+      btn.className = id === state.region ? 'btn sm gold' : 'btn sm';
+      btn.textContent = `${r.name}${state.realm < r.reqRealm ? `(${REALMS[r.reqRealm]})` : ''}`;
+      btn.disabled = state.realm < r.reqRealm;
+      btn.onclick = () => { state.region = id; saveState(); render(); };
+      rList.appendChild(btn);
+    });
+  }
+
+  // 坊市页
+  const sWrap = document.getElementById('shop-list');
+  sWrap.innerHTML = '';
+  SHOP_ITEMS.forEach(item => {
+    const box = document.createElement('div');
+    box.className = 'slot-box';
+    box.innerHTML = `<strong>${item.name} · ${item.price}灵石</strong><small>${item.desc}</small>`;
+    const row = document.createElement('div');
+    row.style.display = 'flex'; row.style.gap = '.35rem';
+    const bBuy = document.createElement('button');
+    bBuy.className = 'btn sm primary'; bBuy.style.flex = '1';
+    bBuy.textContent = '买入'; bBuy.disabled = state.stones < item.price;
+    bBuy.onclick = () => {
+      state.stones -= item.price;
+      state.bag[item.name] = (state.bag[item.name] || 0) + 1;
+      showToast(`花费 ${item.price} 灵石购入【${item.name}】。`);
+      saveState(); render();
+    };
+    const bSell = document.createElement('button');
+    bSell.className = 'btn sm';
+    const sellPrice = Math.max(2, Math.floor(item.price * 0.7));
+    bSell.textContent = `售(${sellPrice})`;
+    bSell.disabled = (state.bag[item.name] || 0) <= 0;
+    bSell.onclick = () => {
+      state.bag[item.name] -= 1;
+      state.stones += sellPrice;
+      showToast(`售出【${item.name}】，获得 ${sellPrice} 灵石。`);
+      saveState(); render();
+    };
+    row.append(bBuy, bSell);
+    box.appendChild(row);
+    sWrap.appendChild(box);
+  });
+
+  // 储物与法宝页
+  const gList = document.getElementById('gear-list');
+  gList.innerHTML = `
+    <div class="slot-box"><strong>本命飞剑</strong><small>${state.gear.weapon || '未装备（炼制青锋飞剑自动装备）'}</small></div>
+    <div class="slot-box"><strong>修炼法门</strong><small>${state.path === '法修' ? '《太虚引气诀》（吐纳效率+15%）' : '《金刚淬体诀》（斗法攻防增强）'}</small></div>
+  `;
+  const bagEntries = Object.entries(state.bag).filter(([, c]) => c > 0);
+  document.getElementById('bag-count').textContent = `${bagEntries.length} 类宝物`;
+  const bList = document.getElementById('bag-list');
+  bList.innerHTML = '';
+  if (!bagEntries.length) {
+    bList.innerHTML = '<small style="color:var(--muted)">储物袋空空如也</small>';
+  } else {
+    bagEntries.forEach(([name, count]) => {
+      const box = document.createElement('div');
+      box.className = 'slot-box';
+      box.innerHTML = `<strong>${name} x${count}</strong>`;
+      if (name === '凝气丹' || name === '回春丹' || name === '青锋飞剑') {
+        const useBtn = document.createElement('button');
+        useBtn.className = 'btn sm primary';
+        useBtn.textContent = name === '青锋飞剑' ? (state.gear.weapon === name ? '已装备' : '装备') : '服用';
+        useBtn.disabled = state.gear.weapon === name;
+        useBtn.onclick = () => {
+          if (name === '青锋飞剑') { state.gear.weapon = name; showToast('已装备【青锋飞剑】！'); }
+          else if (name === '凝气丹') { state.bag[name] -= 1; state.qi = Math.min(100, state.qi + 45); showToast('服下凝气丹，修为暴涨 45%！'); }
+          else if (name === '回春丹') { state.bag[name] -= 1; state.hp = Math.min(state.maxHp, state.hp + 60); showToast('服下回春丹，气血恢复 60 点！'); }
+          saveState(); render();
+        };
+        box.appendChild(useBtn);
+      }
+      bList.appendChild(box);
+    });
+  }
+
+  // 天道设置页状态
+  document.getElementById('model-conn-tag').textContent = cfg ? `已连：${cfg.modelName}` : '未连接';
+  document.getElementById('btn-disconnect').hidden = !cfg;
+
+  // 底部手札日志
+  const lList = document.getElementById('log-list');
+  lList.innerHTML = '';
+  state.logs.slice(0, 12).forEach(item => {
+    const li = document.createElement('li');
+    li.innerHTML = `<time>[道历${item.year}年]</time>${item.text}`;
+    lList.appendChild(li);
+  });
+}
+
+/* 事件绑定 */
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-view').forEach(v => v.hidden = v.id !== 'tab-' + target);
+  });
+});
+
+document.getElementById('orb-meditate').addEventListener('click', () => meditate(0));
+document.getElementById('btn-meditate').addEventListener('click', () => meditate(1));
+document.getElementById('btn-breakthrough').addEventListener('click', attemptBreakthrough);
+document.getElementById('toggle-path').addEventListener('click', () => {
+  state.path = state.path === '法修' ? '体修' : '法修';
+  showToast(`已切换主修路线为【${state.path}】`);
+  saveState(); render();
+});
+
+document.getElementById('btn-quick-explore').addEventListener('click', quickExplore);
+document.getElementById('btn-heal').addEventListener('click', () => {
+  advanceTime(1);
+  state.hp = state.maxHp;
+  showToast('调息一载，气血已完全恢复。');
+  saveState(); render();
+});
+document.getElementById('custom-explore-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const inp = document.getElementById('explore-action-input');
+  const val = inp.value;
+  inp.value = '';
+  customExplore(val);
+});
+
+document.querySelectorAll('[data-move]').forEach(btn => {
+  btn.addEventListener('click', () => handleCombat(btn.dataset.move));
+});
+
+// 初始化 NPC 列表
+const npcSel = document.getElementById('npc-select');
+Object.entries(NPCS).forEach(([id, n]) => {
+  const opt = document.createElement('option');
+  opt.value = id; opt.textContent = n.name;
+  npcSel.appendChild(opt);
+});
+npcSel.addEventListener('change', () => {
+  document.getElementById('npc-bio').textContent = `${NPCS[npcSel.value].role} · ${NPCS[npcSel.value].bio}`;
+});
+document.getElementById('btn-npc-talk').addEventListener('click', talkToNpc);
+document.getElementById('npc-msg').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); talkToNpc(); }
+});
+
+// 模型连接表单（预填缓存的代理网址）
+const savedProxy = localStorage.getItem(PROXY_CACHE_KEY) || '';
+if (savedProxy) document.getElementById('model-proxy').value = savedProxy;
+const savedCfg = getSavedModel();
+if (savedCfg) {
+  document.getElementById('model-provider').value = savedCfg.provider || 'zhipu';
+  document.getElementById('model-name').value = savedCfg.modelName;
+  document.getElementById('model-base-url').value = savedCfg.baseUrl;
+  if (savedCfg.proxy) document.getElementById('model-proxy').value = savedCfg.proxy;
+}
+
+document.getElementById('model-provider').addEventListener('change', e => {
+  const p = providers[e.target.value];
+  if (!p) return;
+  document.getElementById('model-name').value = p.defaultModel;
+  document.getElementById('model-base-url').value = p.baseUrl;
+});
+
+document.getElementById('model-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const provider = document.getElementById('model-provider').value;
+  const modelName = document.getElementById('model-name').value.trim();
+  const key = document.getElementById('model-key').value.trim();
+  const baseUrl = document.getElementById('model-base-url').value.trim();
+  const proxy = document.getElementById('model-proxy').value.trim();
+  const statusEl = document.getElementById('model-status-text');
+  if (!modelName || !key || !baseUrl) return;
+  if (proxy) localStorage.setItem(PROXY_CACHE_KEY, proxy);
+
+  const btn = document.getElementById('btn-connect');
+  btn.disabled = true;
+  statusEl.textContent = '正在向天道验证神识连接…';
+  try {
+    const targetBase = resolveTargetBase(baseUrl, proxy);
+    const res = await fetch(targetBase + '/chat/completions', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: modelName, messages: [{ role: 'user', content: '回复OK' }], max_tokens: 64 }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    localStorage.setItem(MODEL_KEY, JSON.stringify({ provider, modelName, key, baseUrl: normalizeUrl(baseUrl), proxy: normalizeUrl(proxy) }));
+    document.getElementById('model-key').value = '';
+    statusEl.textContent = `连接成功！当前已接入 ${modelName}。`;
+    showToast(`天道神识已连通 ${modelName}！`);
+  } catch (err) {
+    statusEl.textContent = `连接失败（${err.message}）。连智谱国内请务必填写你的 Cloudflare 跨域中转网址并核对 Key。`;
+  } finally {
+    btn.disabled = false;
+    render();
+  }
+});
+
+document.getElementById('btn-disconnect').addEventListener('click', () => {
+  localStorage.removeItem(MODEL_KEY);
+  document.getElementById('model-status-text').textContent = '已断开大模型，切换为本地离线推演。';
+  render();
+});
+
+// 改名与存档导入导出
+document.getElementById('btn-rename').addEventListener('click', () => {
+  const n = document.getElementById('rename-input').value.trim();
+  if (!n) return;
+  state.name = n;
+  document.getElementById('rename-input').value = '';
+  saveState(); render(); showToast(`道号已更改为【${n}】`);
+});
+document.getElementById('btn-export').addEventListener('click', () => {
+  const code = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(state))));
+  window.prompt('复制下方存档码保存或跨设备导入：', code);
+});
+document.getElementById('btn-import').addEventListener('click', () => {
+  const code = window.prompt('请粘贴存档码：');
+  if (!code) return;
+  try {
+    const bin = atob(code.trim());
+    const obj = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+    if (typeof obj.realm === 'number' && obj.bag) {
+      state = obj; saveState(); render(); showToast('存档导入成功！');
+    } else throw new Error();
+  } catch {
+    showToast('存档码无效或已损坏。', true);
+  }
+});
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (window.confirm('确定要兵解重修、清空当前进度吗？')) {
+    state = defaultState(); saveState(); render(); showToast('已重开一世仙途！');
+  }
+});
+
+render();
+</script>
+</body>
+</html>
