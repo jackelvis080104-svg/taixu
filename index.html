@@ -1421,8 +1421,8 @@ async function resumeWorld() {
     const out = await callAI(WORLD_INSTRUCTIONS + '。输出严格 JSON，仅返回 worldUpdates。', worldContext(job.action));
     if (!Array.isArray(out?.worldUpdates)) throw new Error('模型未返回世界行动');
     applyWorldUpdates(out.worldUpdates);
-  } catch {
-    showToast('本次背景推演未完成，已保留你的选择和本地世界进展。', true);
+  } catch (err) {
+    showToast('背景推演未完成，选择已保存。' + err.message, true);
   } finally {
     markWorldTurn(job.slot);
     delete game.worldPending;
@@ -1950,29 +1950,81 @@ function getSavedModel() {
   } catch {}
   return null;
 }
+function modelHttpError(status, proxy) {
+  if (status === 401 || status === 403) return '接口拒绝访问（HTTP ' + status + '），请检查 Key 和模型权限。';
+  if (status === 429) return '接口限流或额度不足（HTTP 429）。';
+  if ([408, 502, 503, 504, 524].includes(status)) {
+    return (proxy ? '中转或模型服务' : '模型服务') + '暂时不可用或等待上游超时（HTTP ' + status + '）。';
+  }
+  return '模型接口返回 HTTP ' + status + '。';
+}
+
+async function requestModelJson(cfg, messages, { timeoutMs = 60000, maxTokens = 900 } = {}) {
+  const targetBase = resolveTargetBase(cfg.baseUrl, cfg.proxy);
+  if (!targetBase) throw new Error('请输入有效的 HTTPS 模型接口地址。');
+  const origin = new URL(normalizeUrl(cfg.baseUrl)).origin;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let data;
+  try {
+    let res;
+    try {
+      res = await fetch(targetBase + '/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + cfg.key },
+        body: JSON.stringify({
+          model: cfg.modelName, messages, max_tokens: maxTokens,
+          response_format: { type: 'json_object' },
+          ...(origin === 'https://api.z.ai' ? { reasoning_effort: 'low' }
+            : origin === 'https://api.deepseek.com' ? { thinking: { type: 'disabled' } } : {}),
+        }),
+        signal: controller.signal,
+      });
+    } catch (err) {
+      if (controller.signal.aborted) throw err;
+      if (err.name === 'AbortError' || /abort/i.test(err.message)) {
+        throw new Error('连接在模型返回前被中断。' + (cfg.proxy ? '请检查中转的超时设置。' : '请检查网络是否稳定。'));
+      }
+      throw new Error('无法访问模型接口，请检查网络和接口地址。' +
+        (cfg.proxy ? '也请确认中转仍可访问。' : '直连时还需确认接口允许网页跨域请求。'));
+    }
+    if (!res.ok) throw new Error(modelHttpError(res.status, cfg.proxy));
+    try {
+      data = await res.json();
+    } catch (err) {
+      if (controller.signal.aborted) throw err;
+      if (err.name === 'SyntaxError') throw new Error('接口返回的内容不是 JSON，请检查接口或中转地址。');
+      throw new Error('读取模型回复时连接中断。');
+    }
+  } catch (err) {
+    if (controller.signal.aborted) {
+      throw new Error('等待模型回复超过 ' + timeoutMs / 1000 + ' 秒，已结束本次请求。' +
+        (cfg.proxy ? '请核对中转的上游超时。' : '可稍后再试。'));
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+  const choice = data?.choices?.[0];
+  const raw = choice?.message?.content;
+  if (choice?.finish_reason === 'length') throw new Error('模型回复达到长度上限，JSON 未能完整返回。');
+  if (typeof raw !== 'string' || !raw.trim()) throw new Error('模型未返回可用回复。');
+  try {
+    const result = JSON.parse(raw.trim().replace(/^\x60\x60\x60(?:json)?\s*/i, '').replace(/\x60\x60\x60\s*$/, ''));
+    if (!result || typeof result !== 'object' || Array.isArray(result)) throw new Error();
+    return result;
+  } catch {
+    throw new Error('模型回复未按要求返回 JSON 对象。');
+  }
+}
+
 async function callAI(systemPrompt, userPayload) {
   const cfg = getSavedModel();
-  if (!cfg) return null;
-  const targetBase = resolveTargetBase(cfg.baseUrl, cfg.proxy);
-  const origin = new URL(targetBase).origin;
-  const isZai = origin === 'https://api.z.ai';
-  const isDeepseek = origin === 'https://api.deepseek.com';
-  const res = await fetch(targetBase + '/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + cfg.key },
-    body: JSON.stringify({
-      model: cfg.modelName,
-      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: JSON.stringify(userPayload) }],
-      max_tokens: 900,
-      response_format: { type: 'json_object' },
-      ...(isZai ? { reasoning_effort: 'low' } : isDeepseek ? { thinking: { type: 'disabled' } } : {})
-    }),
-    signal: AbortSignal.timeout(25000),
-  });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  const data = await res.json();
-  const raw = (data.choices?.[0]?.message?.content || '').replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
-  return JSON.parse(raw);
+  if (!cfg) throw new Error('模型未连接。');
+  return requestModelJson(cfg, [
+    { role: 'system', content: systemPrompt },
+    { role: 'user', content: JSON.stringify(userPayload) },
+  ]);
 }
 
 const savedProxy = localStorage.getItem(PROXY_CACHE_KEY) || '';
@@ -1998,22 +2050,22 @@ document.getElementById('model-form').addEventListener('submit', async e => {
   const baseUrl = document.getElementById('model-base-url').value.trim();
   const proxy = document.getElementById('model-proxy').value.trim();
   if (!modelName || !key || !baseUrl) return;
-  if (proxy) localStorage.setItem(PROXY_CACHE_KEY, proxy);
   const btn = document.getElementById('btn-connect'); btn.disabled = true; btn.textContent = '验证中…';
   try {
-    const targetBase = resolveTargetBase(baseUrl, proxy);
-    const res = await fetch(targetBase + '/chat/completions', {
-      method: 'POST',
-      headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: modelName, messages: [{ role: 'user', content: '回复OK' }], max_tokens: 64 }),
-      signal: AbortSignal.timeout(20000),
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    localStorage.setItem(MODEL_KEY, JSON.stringify({ provider, modelName, key, baseUrl: normalizeUrl(baseUrl), proxy: normalizeUrl(proxy) }));
+    const cfg = { provider, modelName, key, baseUrl: normalizeUrl(baseUrl), proxy: normalizeUrl(proxy) };
+    if (proxy && !cfg.proxy) throw new Error('请输入有效的 HTTPS 中转地址。');
+    const result = await requestModelJson(cfg, [
+      { role: 'system', content: '仅输出 JSON 对象 {"ok": true}。' },
+      { role: 'user', content: '验证游戏的 JSON 回复。' },
+    ], { timeoutMs: 30000, maxTokens: 256 });
+    if (result.ok !== true) throw new Error('模型可访问，但未通过游戏所需的 JSON 回复测试。');
+    if (cfg.proxy) localStorage.setItem(PROXY_CACHE_KEY, cfg.proxy);
+    else localStorage.removeItem(PROXY_CACHE_KEY);
+    localStorage.setItem(MODEL_KEY, JSON.stringify(cfg));
     document.getElementById('model-key').value = '';
     showToast(`天道神识已连通 ${modelName}！`);
   } catch (err) {
-    showToast(`连接失败（${err.message}），请核对中转网址与 Key。`, true);
+    showToast(`验证失败：${err.message}`, true);
   } finally { btn.disabled = false; btn.textContent = '验证并连接'; renderPlay(); }
 });
 document.getElementById('btn-disconnect').addEventListener('click', () => {
