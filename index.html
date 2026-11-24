@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111615">
-  <title>太虚修仙人生模拟器</title>
+  <title>太虚修仙人生模拟器 · 天道演化版</title>
   <style>
 :root{
   color-scheme:dark;
@@ -54,7 +54,6 @@ button:disabled{opacity:.42;cursor:default}
   box-shadow:0 0 45px rgba(0,0,0,.75);
 }
 
-/* 顶部状态栏 */
 .top-bar{
   background:linear-gradient(180deg,#1e2825 0%,#141c1a 100%);
   border-bottom:1px solid var(--line);
@@ -64,17 +63,17 @@ button:disabled{opacity:.42;cursor:default}
   z-index:20;
 }
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:.4rem}
-.dao-info{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.dao-info{display:flex;align-items:center;gap:.42rem;flex-wrap:wrap}
 .dao-info strong{font-size:1.05rem;color:#fff7e6;letter-spacing:.04em}
 .badge{
-  font-size:.73rem;padding:.1rem .44rem;border-radius:4px;
+  font-size:.72rem;padding:.1rem .42rem;border-radius:4px;
   background:rgba(220,185,117,.16);border:1px solid var(--gold-dim);
   color:var(--gold);font-weight:600;
 }
 .badge.jade{background:rgba(92,163,136,.16);border-color:#447864;color:#9ee0c6}
+.badge.stage{background:rgba(120,150,190,.16);border-color:#4f6d94;color:#b8d4f5}
 .sub-line{font-size:.75rem;color:var(--muted);margin-top:.12rem}
 
-/* 五维属性条 */
 .attr-grid{
   display:grid;grid-template-columns:repeat(6,1fr);gap:.3rem;
   margin-top:.5rem;
@@ -86,25 +85,22 @@ button:disabled{opacity:.42;cursor:default}
 .attr-box span{display:block;color:var(--muted);font-size:.66rem}
 .attr-box strong{color:#f2dfba;font-variant-numeric:tabular-nums}
 
-/* 导航切换 */
 .nav-tabs{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   background:#111715;border-bottom:1px solid var(--line);
 }
 .nav-tab{
-  background:none;color:var(--muted);padding:.48rem .2rem;
-  font-size:.82rem;font-weight:600;border-bottom:2px solid transparent;
+  background:none;color:var(--muted);padding:.48rem .15rem;
+  font-size:.8rem;font-weight:600;border-bottom:2px solid transparent;
 }
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(220,185,117,.06)}
 
-/* 主舞台 */
 .stage{flex:1;padding:.8rem .85rem 1.4rem;display:flex;flex-direction:column;gap:.75rem}
 
-/* 编年体人生长卷 */
 .chronicle-wrap{
   flex:1;
-  min-height:270px;
-  max-height:46vh;
+  min-height:280px;
+  max-height:48vh;
   overflow-y:auto;
   background:var(--paper);
   color:var(--ink);
@@ -119,15 +115,15 @@ button:disabled{opacity:.42;cursor:default}
 .life-entry{
   padding-bottom:.5rem;
   border-bottom:1px dashed #c8bfa8;
-  font-size:.9rem;
+  font-size:.89rem;
   line-height:1.58;
 }
 .life-entry:last-child{border-bottom:none;padding-bottom:0}
 .life-age{
   display:inline-block;
   font-weight:700;
-  font-size:.78rem;
-  padding:.05rem .38rem;
+  font-size:.76rem;
+  padding:.04rem .36rem;
   border-radius:4px;
   background:#334a40;
   color:#fff6e5;
@@ -136,15 +132,15 @@ button:disabled{opacity:.42;cursor:default}
 .life-entry.major .life-age{background:#8c3b2b}
 .life-entry.good .life-age{background:#8f6b29}
 .life-entry.love .life-age{background:#8c3b58}
+.life-entry.world .life-age{background:#345073}
 .life-delta{
   display:block;
   margin-top:.2rem;
-  font-size:.78rem;
+  font-size:.77rem;
   font-weight:600;
   color:#385c4c;
 }
 
-/* 命运抉择卡（遇到事件时弹出替换普通行动栏） */
 .choice-card{
   background:linear-gradient(180deg,#242d2a 0%,#19211f 100%);
   border:1px solid var(--gold);
@@ -164,18 +160,17 @@ button:disabled{opacity:.42;cursor:default}
 .choice-req{font-size:.74rem;color:var(--gold);font-weight:600;margin-right:.35rem}
 .choice-req.fail{color:var(--crimson)}
 
-/* 通用按钮与输入框 */
 .btn{
-  min-height:42px;padding:.45rem .75rem;border-radius:7px;
+  min-height:40px;padding:.42rem .7rem;border-radius:7px;
   background:var(--soft);border:1px solid #485952;color:var(--text);
-  font-weight:600;font-size:.86rem;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;
+  font-weight:600;font-size:.85rem;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;
 }
 .btn:hover:not(:disabled){border-color:var(--gold);background:#2f3e39}
 .btn.primary{background:linear-gradient(180deg,#3b6e5b 0%,#284f41 100%);border-color:#69a890;color:#fff9eb}
 .btn.gold{background:linear-gradient(180deg,#9c7538 0%,#735322 100%);border-color:#e0c084;color:#fff9eb}
 .btn.pink{background:linear-gradient(180deg,#8c4658 0%,#632e3c 100%);border-color:#d98a9e;color:#fff0f4}
 .btn.danger{background:#5c2b22;border-color:#a85544;color:#ffeae5}
-.btn.sm{min-height:32px;padding:.22rem .55rem;font-size:.78rem}
+.btn.sm{min-height:32px;padding:.2rem .52rem;font-size:.77rem}
 
 .inp{
   width:100%;min-height:38px;padding:.35rem .6rem;
@@ -183,16 +178,15 @@ button:disabled{opacity:.42;cursor:default}
   background:#111715;color:var(--text);
 }
 .ink-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.8rem}
-.ink-card h3{margin:0 0 .5rem;font-size:.98rem;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
+.ink-card h3{margin:0 0 .5rem;font-size:.96rem;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .slot-box{
   background:#141b19;border:1px solid #2e3b36;border-radius:8px;
   padding:.55rem;display:flex;flex-direction:column;justify-content:space-between;gap:.35rem;
 }
-.slot-box strong{font-size:.88rem;color:#f5ebd6}
-.slot-box small{font-size:.76rem;color:var(--muted);line-height:1.4}
+.slot-box strong{font-size:.87rem;color:#f5ebd6}
+.slot-box small{font-size:.75rem;color:var(--muted);line-height:1.4}
 
-/* 天赋与属性分配界面 */
 .setup-box{
   background:var(--panel);padding:.9rem;display:flex;flex-direction:column;gap:.75rem;
 }
@@ -216,7 +210,10 @@ button:disabled{opacity:.42;cursor:default}
 .t-blue{background:#1f3b4d;color:#a8dcff;border:1px solid #4885ad}
 .t-gray{background:#2c3330;color:#c2c9c5;border:1px solid #525e59}
 
-/* 结算弹窗 */
+.toggle-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  background:#121816;border:1px solid #2d3a35;border-radius:8px;padding:.42rem .68rem;font-size:.8rem;
+}
 .modal-mask{
   position:fixed;inset:0;background:rgba(6,9,8,.88);
   display:flex;justify-content:center;align-items:center;padding:.85rem;z-index:50;
@@ -236,7 +233,7 @@ button:disabled{opacity:.42;cursor:default}
   <div id="screen-setup" class="setup-box" hidden>
     <div style="text-align:center;border-bottom:1px solid var(--line);padding-bottom:.6rem">
       <h1 class="serif" style="margin:0;font-size:1.45rem;color:var(--gold)">太虚修仙人生模拟器</h1>
-      <p style="margin:.2rem 0 0;font-size:.8rem;color:var(--muted)">第 <span id="reincarnation-num">1</span> 世轮回 · 抽取先天命格并分配属性</p>
+      <p style="margin:.2rem 0 0;font-size:.8rem;color:var(--muted)">第 <span id="reincarnation-num">1</span> 世轮回 · 严格循龄演化 · 天骄争锋</p>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
@@ -255,7 +252,6 @@ button:disabled{opacity:.42;cursor:default}
       </div>
     </div>
 
-    <!-- 十连抽天赋 -->
     <div class="ink-card">
       <h3>
         <span>先天命格（已选 <span id="picked-count">0</span>/3）</span>
@@ -264,7 +260,6 @@ button:disabled{opacity:.42;cursor:default}
       <div class="grid-2" id="draw-pool" style="max-height:33vh;overflow-y:auto"></div>
     </div>
 
-    <!-- 20点属性自由分配 -->
     <div class="ink-card">
       <h3>
         <span>先天属性分配</span>
@@ -273,6 +268,7 @@ button:disabled{opacity:.42;cursor:default}
       <div style="display:grid;gap:.38rem" id="stat-alloc-list"></div>
     </div>
 
+    <p id="past-lives" class="muted compact" hidden></p>
     <button type="button" class="btn gold" id="btn-begin-life" style="min-height:46px;font-size:.98rem">凝聚道胎 · 开启此生仙途</button>
   </div>
 
@@ -283,7 +279,8 @@ button:disabled{opacity:.42;cursor:default}
         <div class="dao-info">
           <strong id="hud-name" class="serif">林凡</strong>
           <span class="badge" id="hud-realm">凡人</span>
-          <span class="badge jade" id="hud-sect">散修</span>
+          <span class="badge jade" id="hud-sect">幼童</span>
+          <span class="badge stage" id="hud-stage">蒙童期</span>
         </div>
         <span style="font-size:.76rem;color:var(--gold)" id="hud-age">0 / 80 岁</span>
       </div>
@@ -300,8 +297,9 @@ button:disabled{opacity:.42;cursor:default}
 
     <nav class="nav-tabs">
       <button type="button" class="nav-tab active" data-view="life">人生轨迹</button>
-      <button type="button" class="nav-tab" data-view="relations">道侣与因果</button>
-      <button type="button" class="nav-tab" data-view="assets">神通与宝物</button>
+      <button type="button" class="nav-tab" data-view="prodigies">天骄榜</button>
+      <button type="button" class="nav-tab" data-view="relations">因果名录</button>
+      <button type="button" class="nav-tab" data-view="assets">神通宝物</button>
       <button type="button" class="nav-tab" data-view="settings">天道模型</button>
     </nav>
 
@@ -309,64 +307,77 @@ button:disabled{opacity:.42;cursor:default}
       <div id="toast" class="toast" hidden></div>
 
       <!-- 视图 1：编年体人生轨迹 + 命运抉择 -->
-      <section id="view-life" style="display:flex;flex-direction:column;gap:.75rem;flex:1">
+      <section id="view-life" style="display:flex;flex-direction:column;gap:.65rem;flex:1">
+        <div class="toggle-bar">
+          <span>推演引擎：<strong id="engine-mode-label" style="color:var(--gold)">本地逻辑事件库</strong></span>
+          <button type="button" class="btn sm" id="btn-toggle-ai-chronicle">切换 AI 世界推演</button>
+        </div>
+
         <div class="chronicle-wrap" id="chronicle-box"></div>
 
         <!-- 遇到抉择事件时显示 -->
         <div id="choice-panel" class="choice-card" hidden>
-          <h3><span id="choice-title">命运抉择</span><span style="font-size:.75rem;color:var(--muted)">审时度势</span></h3>
+          <h3><span id="choice-title">命运抉择</span><span style="font-size:.75rem;color:var(--muted)" id="choice-stage-tag">人生路口</span></h3>
           <p class="choice-desc" id="choice-desc"></p>
           <div class="choice-list" id="choice-options"></div>
 
-          <!-- AI 自由输入自主破局 -->
           <form id="ai-choice-form" style="margin-top:.65rem;padding-top:.6rem;border-top:1px dashed #3d4d47">
-            <label style="font-size:.76rem;color:var(--gold);display:block;margin-bottom:.25rem">或自主输入破局之法（由天道大模型根据你的属性推演成败）：</label>
+            <label style="font-size:.76rem;color:var(--gold);display:block;margin-bottom:.25rem">或自主输入破局之法（天道大模型将严格按你当前年龄与实力推演）：</label>
             <div style="display:flex;gap:.4rem">
-              <input id="ai-choice-input" class="inp" maxlength="160" placeholder="例如：假意顺从，暗中催动护身符偷袭">
+              <input id="ai-choice-input" class="inp" maxlength="160" placeholder="写下你符合当前年龄与身份的应对之策">
               <button type="submit" class="btn gold sm" id="btn-ai-choice" style="white-space:nowrap;min-height:38px">自主破局</button>
             </div>
           </form>
         </div>
 
-        <!-- 平常年份推进控制栏 -->
+        <!-- 平常年份推进控制栏（按钮根据年龄与境界动态解锁！） -->
         <div id="normal-controls" style="display:grid;gap:.5rem">
           <div class="grid-2">
             <button type="button" class="btn primary" id="btn-next-year" style="min-height:46px;font-size:.95rem">岁月流转（+1年）</button>
-            <button type="button" class="btn" id="btn-skip-5">闭关潜修（+5年）</button>
+            <button type="button" class="btn" id="btn-skip-5">潜修数载（+5年）</button>
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem">
-            <button type="button" class="btn sm" id="btn-act-explore">外出游历(5灵石)</button>
-            <button type="button" class="btn sm" id="btn-act-auction">万宝楼拍卖会</button>
+            <button type="button" class="btn sm" id="btn-act-explore">外出游历</button>
+            <button type="button" class="btn sm" id="btn-act-auction">万宝楼拍卖</button>
             <button type="button" class="btn sm gold" id="btn-act-break">冲关渡劫</button>
           </div>
         </div>
       </section>
 
-      <!-- 视图 2：道侣、师门与仇敌因果 -->
+      <!-- 视图 2：大世界天骄榜（同期天骄也会成长、争锋、结缘） -->
+      <section id="view-prodigies" hidden style="display:grid;gap:.7rem">
+        <div class="ink-card">
+          <h3><span>东荒天骄榜 · 同期俊杰</span><small style="color:var(--muted);font-weight:400">随岁月共同成长</small></h3>
+          <p style="font-size:.78rem;color:var(--muted);margin:0 0 .6rem">修仙界并非你一人独行，各大圣地与世家天骄每年亦在修炼、夺宝与破境，你们会在宗门大比、秘境与拍卖会上频频交锋。</p>
+          <div id="prodigy-list" style="display:grid;gap:.55rem"></div>
+        </div>
+      </section>
+
+      <!-- 视图 3：道侣、师门与仇敌因果 -->
       <section id="view-relations" hidden style="display:grid;gap:.7rem">
         <div class="ink-card">
-          <h3><span>此世因果名录（道侣 · 恩师 · 宿敌）</span></h3>
+          <h3><span>此世因果名录（道侣 · 恩师 · 宿敌 · 挚友）</span></h3>
           <div id="rel-list" style="display:grid;gap:.5rem"></div>
         </div>
       </section>
 
-      <!-- 视图 3：功法神通与法宝储物 -->
+      <!-- 视图 4：功法神通与法宝储物 -->
       <section id="view-assets" hidden style="display:grid;gap:.7rem">
         <div class="ink-card">
           <h3><span>已悟功法与本命法宝</span></h3>
           <div id="asset-list" class="grid-2"></div>
         </div>
         <div class="ink-card">
-          <h3><span>先天命格一览</span></h3>
+          <h3><span>先天命格与伏笔线索</span></h3>
           <div id="talent-summary" class="grid-2"></div>
         </div>
       </section>
 
-      <!-- 视图 4：天道大模型设置（沿用你的 Key 与 Cloudflare 中转配置） -->
+      <!-- 视图 5：天道大模型设置 -->
       <section id="view-settings" hidden style="display:grid;gap:.7rem">
         <div class="ink-card">
           <h3><span>天道神识 · 大模型连接</span><span id="conn-badge" style="font-size:.76rem;color:var(--jade)">未连接</span></h3>
-          <p style="font-size:.78rem;color:var(--muted);margin:0 0 .55rem">连接后，遇到命运事件可输入任意自主破局手段，也可向道侣/仇敌自由传音互动。</p>
+          <p style="font-size:.78rem;color:var(--muted);margin:0 0 .55rem">连接后，在人生面板开启「AI 世界推演」。推进年份或处理抉择时，模型会参考人际关系与往事，为同期人物挑选行动。开启后会使用你配置的模型 API。</p>
           <form id="model-form" style="display:grid;gap:.45rem">
             <select id="model-provider" class="inp">
               <option value="zhipu">智谱国内 (open.bigmodel.cn)</option>
@@ -398,7 +409,7 @@ button:disabled{opacity:.42;cursor:default}
   </div>
 </div>
 
-<!-- 阶段三：身死道消 / 飞升轮回结算弹窗 -->
+<!-- 结算弹窗 -->
 <div id="ending-modal" class="modal-mask" hidden>
   <div class="modal-box">
     <h2 class="serif" id="end-title" style="margin:0 0 .3rem;color:#7a2e20">寿元耗尽 · 坐化仙逝</h2>
@@ -409,8 +420,8 @@ button:disabled{opacity:.42;cursor:default}
 </div>
 
 <script type="module">
-const SAVE_KEY = 'taixu_life_sim_v1';
-const META_KEY = 'taixu_life_meta_v1';
+const SAVE_KEY = 'taixu_life_sim_v2';
+const META_KEY = 'taixu_life_meta_v2';
 const MODEL_KEY = 'taixu_wendaolu_model_v1';
 const PROXY_CACHE_KEY = 'taixu_wendaolu_proxy_v1';
 
@@ -427,25 +438,43 @@ const REALMS = [
   '元婴真君','化神大能','炼虚合道','大乘渡劫','真仙飞升'
 ];
 
-/* 完整天赋池（每次十连抽选3个） */
+/* 人生阶段严格划分，杜绝三岁双修等逻辑硬伤 */
+function getLifeStage(age, realm) {
+  if (age < 6) return { id: 'child', name: '蒙童期(0-5岁)' };
+  if (age < 15) return { id: 'teen', name: '少年求道(6-14岁)' };
+  if (realm < 5) return { id: 'youth_qi', name: '外门历练(炼气期)' };
+  if (realm < 8) return { id: 'zhuji', name: '宗门中坚(筑基期)' };
+  return { id: 'high', name: '一方巨擘(结丹以上)' };
+}
+
 const ALL_TALENTS = [
-  { id: 'ring_oldman', name: '戒指里的残魂', tier: 'red', tierName: '仙品', desc: '随身古戒藏有上古大能残魂，危急时刻可逆天改命', apply: g => { g.int += 3; g.items.push('古朴魂戒'); } },
-  { id: 'chaos_body', name: '荒古圣体', tier: 'red', tierName: '仙品', desc: '体魄+5，根骨+3，同阶斗法无敌，但前期耗费灵石翻倍', apply: g => { g.body += 5; g.bone += 3; } },
-  { id: 'sword_heart', name: '天生剑心', tier: 'red', tierName: '仙品', desc: '悟性+4，体魄+3，剑道宗门抢着收你为真传', apply: g => { g.int += 4; g.body += 3; } },
-  { id: 'luck_child', name: '气运之子', tier: 'red', tierName: '仙品', desc: '气运+6，跳崖必捡秘籍，拍卖会常遇漏网至宝', apply: g => { g.luck += 6; } },
-  { id: 'fox_blood', name: '九尾天狐血脉', tier: 'gold', tierName: '天品', desc: '魅力+6，悟性+2，极易与绝色仙子/魔尊结下道侣情缘', apply: g => { g.charm += 6; g.int += 2; } },
-  { id: 'alchemy_sage', name: '丹道圣手', tier: 'gold', tierName: '天品', desc: '悟性+3，灵石+50，瓶颈突破成功率大幅提升', apply: g => { g.int += 3; g.stones += 50; g.items.push('紫金丹炉'); } },
-  { id: 'longevity', name: '长生道胎', tier: 'gold', tierName: '天品', desc: '初始寿元+60年，根骨+3', apply: g => { g.maxAge += 60; g.bone += 3; } },
-  { id: 'wealth_god', name: '多宝童子', tier: 'gold', tierName: '天品', desc: '灵石+120，气运+2，修仙界财大气粗横着走', apply: g => { g.stones += 120; g.luck += 2; } },
-  { id: 'demon_reborn', name: '魔尊转世', tier: 'gold', tierName: '天品', desc: '体魄+4，悟性+3，行事狠辣，易触发魔道秘传剧情', apply: g => { g.body += 4; g.int += 3; } },
-  { id: 'thunder_root', name: '天雷变异灵根', tier: 'blue', tierName: '灵品', desc: '根骨+3，渡雷劫时反而能吸收雷霆壮大己身', apply: g => { g.bone += 3; } },
-  { id: 'book_memory', name: '过目不忘', tier: 'blue', tierName: '灵品', desc: '悟性+3，藏经阁参悟功法事半功倍', apply: g => { g.int += 3; } },
-  { id: 'iron_bone', name: '铜皮铁骨', tier: 'blue', tierName: '灵品', desc: '体魄+3，秘境遇险存活率大增', apply: g => { g.body += 3; } },
-  { id: 'good_face', name: '风华绝代', tier: 'blue', tierName: '灵品', desc: '魅力+4，坊市买东西常被女修/掌柜免单', apply: g => { g.charm += 4; } },
-  { id: 'waste_vein', name: '天生废脉', tier: 'gray', tierName: '凡品', desc: '根骨-2，前期受尽白眼，但若能熬到筑基将厚积薄发', apply: g => { g.bone = Math.max(1, g.bone - 2); } },
-  { id: 'lone_star', name: '天煞孤星', tier: 'gray', tierName: '凡品', desc: '魅力-2，体魄+3，气运+2，无牵无挂一心向道', apply: g => { g.charm = Math.max(1, g.charm - 2); g.body += 3; g.luck += 2; } },
-  { id: 'herb_boy', name: '山野药童', tier: 'blue', tierName: '灵品', desc: '根骨+2，灵石+25，熟知天下奇花异草药性', apply: g => { g.bone += 2; g.stones += 25; } },
+  { id: 'ring_oldman', name: '戒指里的残魂', tier: 'red', tierName: '仙品', desc: '贴身古戒藏有上古大能残魂，少年后逐步苏醒指点迷津', apply: g => { g.int += 3; g.items.push('古朴魂戒'); } },
+  { id: 'chaos_body', name: '荒古圣体', tier: 'red', tierName: '仙品', desc: '体魄+5，根骨+3，同阶体修无敌，但破境耗费资源翻倍', apply: g => { g.body += 5; g.bone += 3; } },
+  { id: 'sword_heart', name: '天生剑心', tier: 'red', tierName: '仙品', desc: '悟性+4，体魄+3，六岁测灵必受剑宗长老青睐', apply: g => { g.int += 4; g.body += 3; } },
+  { id: 'luck_child', name: '气运之子', tier: 'red', tierName: '仙品', desc: '气运+6，常遇福缘，跌落山谷必有前人洞府', apply: g => { g.luck += 6; } },
+  { id: 'fox_blood', name: '九尾天狐血脉', tier: 'gold', tierName: '天品', desc: '魅力+6，悟性+2，成年后极易与名门仙子/魔尊结缘', apply: g => { g.charm += 6; g.int += 2; } },
+  { id: 'alchemy_sage', name: '丹道圣手', tier: 'gold', tierName: '天品', desc: '悟性+3，灵石+50，对草药丹火有天然亲和力', apply: g => { g.int += 3; g.stones += 50; g.items.push('紫金小丹炉'); } },
+  { id: 'longevity', name: '长生道胎', tier: 'gold', tierName: '天品', desc: '初始寿元+60年，根骨+3，气血绵长', apply: g => { g.maxAge += 60; g.bone += 3; } },
+  { id: 'wealth_god', name: '多宝童子', tier: 'gold', tierName: '天品', desc: '灵石+120，气运+2，自幼不缺修炼资粮', apply: g => { g.stones += 120; g.luck += 2; } },
+  { id: 'demon_reborn', name: '魔尊转世', tier: 'gold', tierName: '天品', desc: '体魄+4，悟性+3，心性早熟，成年后易入魔道秘境', apply: g => { g.body += 4; g.int += 3; } },
+  { id: 'thunder_root', name: '天雷变异灵根', tier: 'blue', tierName: '灵品', desc: '根骨+3，渡雷劫时反而能借天雷淬体', apply: g => { g.bone += 3; } },
+  { id: 'book_memory', name: '过目不忘', tier: 'blue', tierName: '灵品', desc: '悟性+3，幼年读经、成年参悟功法事半功倍', apply: g => { g.int += 3; } },
+  { id: 'iron_bone', name: '铜皮铁骨', tier: 'blue', tierName: '灵品', desc: '体魄+3，耐打抗揍，历练不易受内伤', apply: g => { g.body += 3; } },
+  { id: 'good_face', name: '玉树临风', tier: 'blue', tierName: '灵品', desc: '魅力+4，无论幼年还是成年都极讨长辈与同门喜欢', apply: g => { g.charm += 4; } },
+  { id: 'waste_vein', name: '天生废脉', tier: 'gray', tierName: '凡品', desc: '根骨-2，前期修行艰难受尽白眼，筑基后方显峥嵘', apply: g => { g.bone = Math.max(1, g.bone - 2); } },
+  { id: 'lone_star', name: '天煞孤星', tier: 'gray', tierName: '凡品', desc: '魅力-2，体魄+3，气运+2，孤僻寡言一心向道', apply: g => { g.charm = Math.max(1, g.charm - 2); g.body += 3; g.luck += 2; } },
+  { id: 'herb_boy', name: '山野药童', tier: 'blue', tierName: '灵品', desc: '根骨+2，灵石+25，自幼随采药人识遍百草', apply: g => { g.bone += 2; g.stones += 25; } },
 ];
+
+/* 大世界同期天骄初始化 */
+function createInitialProdigies() {
+  return [
+    { id: 'p1', name: '叶孤城', sect: '清虚剑宗·真传', age: 1, realm: 0, talent: '无垢剑体', status: '正在剑宗后山练剑', relation: '未曾谋面' },
+    { id: 'p2', name: '苏清雪', sect: '冰心宫·圣女', age: 0, realm: 0, talent: '九阴玄脉', status: '随师尊在雪域闭关', relation: '未曾谋面' },
+    { id: 'p3', name: '厉无咎', sect: '九幽魔殿·少主', age: 2, realm: 0, talent: '天魔血脉', status: '在十万大山猎杀妖兽', relation: '未曾谋面' },
+    { id: 'p4', name: '丹辰子', sect: '丹鼎圣地·首席', age: 1, realm: 0, talent: '九窍丹心', status: '正在炼制一阶聚气丹', relation: '未曾谋面' },
+  ];
+}
 
 let meta = loadMeta();
 let game = loadGame();
@@ -455,10 +484,7 @@ let allocStats = { bone: 4, int: 4, body: 4, luck: 4, charm: 4 };
 let busy = false;
 
 function loadMeta() {
-  try {
-    const raw = localStorage.getItem(META_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
+  try { const raw = localStorage.getItem(META_KEY); if (raw) return JSON.parse(raw); } catch {}
   return { count: 1, bonusPoints: 0 };
 }
 function saveMeta() { localStorage.setItem(META_KEY, JSON.stringify(meta)); }
@@ -474,6 +500,37 @@ function loadGame() {
 }
 function saveGame() { if (game) localStorage.setItem(SAVE_KEY, JSON.stringify(game)); }
 
+function restoreChoice() {
+  const saved = game?.pendingChoice;
+  if (!saved) return;
+  const ref = saved.ref;
+  if (ref?.type === 'milestone6' || (!ref && saved.title?.includes('仙门测灵大典'))) triggerMilestone6();
+  else if (ref?.type === 'tournament16' || (!ref && saved.title?.includes('清虚剑宗外门大比'))) triggerSectTournament16();
+  else if (ref?.type === 'auction' || (!ref && saved.title?.includes('万宝楼压轴拍卖会'))) {
+    game.flags.last_auction = game.age;
+    createAuctionChoice();
+  }
+  else if (ref?.type === 'thread' && Object.hasOwn(lifeThreads, ref.id)) setLifeChoice(ref.id);
+  else if (ref?.type === 'stage') triggerStageDilemma(ref.stage, ref.index);
+  else if (ref?.type === 'ai') setAiChoice(ref.data);
+  else {
+    const variants = saved.title?.includes('魂戒异动') ? [['adult', 'ring']] :
+      [['child', 0], ...[0, 1].map(i => ['teen', i]), ...[0, 1, 2].map(i => ['adult', i])];
+    for (const [stage, index] of variants) {
+      triggerStageDilemma(stage, index);
+      if (game.pendingChoice?.title === saved.title) return;
+    }
+    const labels = saved.options?.map(option => option.label);
+    if (labels?.length === 2 && saved.options.every(option => ['[顺势而为]', '[另辟蹊径]'].includes(option.reqText))) {
+      setAiChoice({ title: saved.title, desc: saved.desc, labels });
+    } else {
+      game.pendingChoice = null;
+      pushLog(game.age, '上一版本的这场抉择已无法恢复，你可以继续推演。', 'normal');
+    }
+  }
+  saveGame();
+}
+
 function showToast(msg, warn = false) {
   const el = document.getElementById('toast');
   if (!msg) { el.hidden = true; return; }
@@ -485,13 +542,15 @@ function showToast(msg, warn = false) {
 
 /* ==================== 轮回开局设置 ==================== */
 function initSetupScreen() {
+  const past = document.getElementById('past-lives');
+  past.hidden = !meta.lives?.length;
+  past.textContent = meta.lives?.length ? '历世生平：' + meta.lives.join(' ｜ ') : '';
   document.getElementById('screen-setup').hidden = false;
   document.getElementById('screen-play').hidden = true;
   document.getElementById('ending-modal').hidden = true;
   document.getElementById('reincarnation-num').textContent = meta.count;
   const totalPts = 20 + (meta.bonusPoints || 0);
   allocStats = { bone: 4, int: 4, body: 4, luck: 4, charm: 4 };
-  // 多出来的点数留在未分配池
   drawTenTalents();
   renderAllocList(totalPts);
 }
@@ -514,8 +573,8 @@ function renderDrawPool() {
     const cls = t.tier === 'red' ? 't-red' : t.tier === 'gold' ? 't-gold' : t.tier === 'blue' ? 't-blue' : 't-gray';
     btn.innerHTML = `
       <span class="tier-tag ${cls}">${t.tierName}</span>
-      <strong style="font-size:.82rem;color:#fff5de">${t.name}</strong>
-      <small style="font-size:.71rem;color:var(--muted);line-height:1.3">${t.desc}</small>
+      <strong style="font-size:.82rem;color:#fff5de">${escapeText(t.name)}</strong>
+      <small style="font-size:.71rem;color:var(--muted);line-height:1.3">${escapeText(t.desc)}</small>
     `;
     btn.onclick = () => {
       if (picked) pickedTalentIds = pickedTalentIds.filter(x => x !== t.id);
@@ -536,7 +595,7 @@ function renderAllocList(totalPts) {
     ['int', '悟性（神通/突破几率）'],
     ['body', '体魄（斗法/抗天劫）'],
     ['luck', '气运（奇遇/避祸概率）'],
-    ['charm', '魅力（道侣/贵人缘分）']
+    ['charm', '魅力（人缘/道侣缘分）']
   ];
   const wrap = document.getElementById('stat-alloc-list');
   wrap.innerHTML = '';
@@ -574,8 +633,8 @@ document.getElementById('btn-begin-life').addEventListener('click', () => {
     maxAge: 75 + allocStats.bone * 2,
     realm: 0,
     qi: 0,
-    stones: 10,
-    sect: '一介凡俗',
+    stones: 5,
+    sect: '蒙童未入道',
     bone: allocStats.bone,
     int: allocStats.int,
     body: allocStats.body,
@@ -584,167 +643,379 @@ document.getElementById('btn-begin-life').addEventListener('click', () => {
     talents: chosen,
     items: [],
     arts: [],
-    relations: [], // { name, role, type: '道侣'|'恩师'|'宿敌'|'红颜', favor, power }
+    flags: {}, // 长线伏笔标记：如 picked_rusty_sword, saved_senior, ring_awake
+    relations: [],
+    prodigies: createInitialProdigies(),
+    aiChronicleMode: false,
     pendingChoice: null,
     history: [],
     alive: true,
   };
-  if (origin === 'farm') { game.body += 2; pushLog(0, '你降生于青牛山脚猎户之家，自幼随父辈搏杀山兽，筋骨强健。', 'normal'); }
-  if (origin === 'scholar') { game.int += 2; pushLog(0, '你生于书香门第，三岁能诵诗书，聪慧过人。', 'normal'); }
-  if (origin === 'merchant') { game.stones += 40; game.charm += 1; pushLog(0, '你生于修仙坊市商贾之家，自幼见惯灵石法宝。', 'good'); }
-  if (origin === 'fallen') { game.bone += 1; game.luck += 1; game.items.push('残破家传玉佩'); pushLog(0, '你生于没落修仙家族，祖上曾出过金丹真人。', 'good'); }
+  if (origin === 'farm') { game.body += 2; pushLog(0, '一声啼哭，你降生于青牛山脚猎户之家，父母淳朴厚道，盼你平安长大。', 'normal'); }
+  if (origin === 'scholar') { game.int += 2; pushLog(0, '你生于青阳镇书香门第，满屋书卷气伴你降生。', 'normal'); }
+  if (origin === 'merchant') { game.stones += 40; game.charm += 1; pushLog(0, '你生于仙凡交界坊市的商贾之家，家中颇有积蓄。', 'good'); }
+  if (origin === 'fallen') { game.bone += 1; game.luck += 1; game.items.push('家传残破玉佩'); pushLog(0, '你生于没落修仙小族，祖上百年前曾出过一位筑基修士。', 'good'); }
 
   chosen.forEach(t => { if (t && t.apply) t.apply(game); });
   if (chosen.length) {
-    pushLog(0, `先天命格觉醒：【${chosen.map(t => t.name).join('、')}】！`, 'good');
+    pushLog(0, `冥冥之中先天命格落定：【${chosen.map(t => t.name).join('、')}】。`, 'good');
   }
   saveGame();
   startPlayScreen();
 });
 
-/* ==================== 核心人生事件与抉择引擎 ==================== */
+/* ==================== 核心人生推进与大世界演化 ==================== */
 function pushLog(age, text, kind = 'normal', delta = '') {
   game.history.push({ age, text, kind, delta });
-  if (game.history.length > 150) game.history.shift();
+  if (game.history.length > 180) game.history.shift();
 }
 
 function calcPower() {
-  return game.realm * 25 + game.body * 3 + game.int * 2 + game.items.length * 12 + game.arts.length * 18;
+  return game.realm * 25 + game.body * 3 + game.int * 2 + new Set(game.items).size * 12 + new Set(game.arts).size * 18;
 }
 
-function stepOneYear() {
-  if (!game || !game.alive || game.pendingChoice) return;
+/* 同期天骄每年自主演化 */
+function evolveProdigies() {
+  if (!game.prodigies) return;
+  const actions = [
+    p => { p.status = '在宗门灵脉闭关苦修'; },
+    p => { p.status = '奉师命外出历练斩妖'; },
+    p => { p.status = '在秘境深处与同辈争锋'; },
+    p => { p.status = '于万宝楼参拍珍稀丹药'; }
+  ];
+  game.prodigies.forEach(p => {
+    p.age += 1;
+    if (p.age >= 6 && p.realm === 0) {
+      p.realm = 1;
+      p.status = '测出上等灵根，正式引气入体';
+    } else if (p.age >= 7 && p.realm < 13 && Math.random() < (0.24 + (p.worldAction === 'train' && (p.worldMilestones?.train || 0) > 0 ? 0.08 : 0))) {
+      p.realm += 1;
+      p.status = `刚刚突破至【${REALMS[p.realm]}】`;
+      if (Math.random() < 0.35) {
+        pushLog(game.age, `【东荒传闻】${p.sect}的天骄「${p.name}」（${p.age}岁）突破至${REALMS[p.realm]}，名动一方！`, 'world');
+      }
+    } else if (p.age < 6) {
+      p.status = '在师长身边启蒙识字';
+    } else {
+      actions[Math.floor(Math.random() * actions.length)](p);
+    }
+  });
+}
+
+function canAct() {
+  return game && game.alive && !game.pendingChoice && !busy;
+}
+function checkLifespan() {
+  if (game.age < game.maxAge) return false;
+  triggerEnding(false, `岁月至 ${game.age} 载，你大限已至，一生修为止步于【${REALMS[game.realm]}】。`);
+  return true;
+}
+function advanceYear() {
+  if (!canAct()) return false;
   game.age += 1;
-
-  // 检查寿元
-  if (game.age >= game.maxAge) {
-    triggerEnding(false, `岁月至 ${game.age} 载，你大限已至，一生修为止步于【${REALMS[game.realm]}】，终究化作一抔黄土。`);
-    return;
-  }
-
-  // 固定年龄里程碑事件
+  evolveProdigies();
+  return !checkLifespan();
+}
+function runMilestone() {
   if (game.age === 6) {
     triggerMilestone6();
-    return;
+    return true;
   }
   if (game.age === 12 && game.realm === 0) {
-    triggerMilestone12();
-    return;
+    game.realm = 1; game.qi = 10; game.sect = '江湖散修';
+    pushLog(12, '十二岁这年，你在山涧古洞中偶得一卷《长生吐纳术》，摸索半年终于引气入体。', 'good', '踏入炼气初期');
+    return true;
   }
-
-  // 日常修为自然增长
-  if (game.realm > 0) {
-    const qiGain = Math.max(4, Math.floor((game.bone * 1.4 + game.int * 0.8) * (1 + Math.random() * 0.4)));
-    game.qi = Math.min(100, game.qi + qiGain);
+  if (game.age === 16 && game.sect.includes('清虚剑宗') && !game.flags.sect_exam_16) {
+    game.flags.sect_exam_16 = true;
+    triggerSectTournament16();
+    return true;
   }
-
-  // 触发高沉浸人生随机事件或抉择
-  const roll = Math.random();
-  if (roll < 0.46) {
-    triggerDilemmaEvent();
-  } else {
-    triggerNarrativeEvent();
+  return false;
+}
+function finishYear() {
+  if (!game.alive || checkLifespan()) return;
+  runMilestone();
+  if (!game.pendingChoice) runLifeThread();
+  saveGame();
+  renderPlay();
+  if (!game.pendingChoice) return syncWorld({ event: '本年已过', outcome: game.history.at(-1)?.text || '' });
+}
+function runLocalYear() {
+  const stage = getLifeStage(game.age, game.realm).id;
+  if (Math.random() < 0.44) triggerStageDilemma(stage);
+  else triggerStageNarrative(stage);
+}
+async function stepOneYear() {
+  if (!advanceYear()) return;
+  if (!runMilestone() && !runLifeThread()) {
+    if (game.realm > 0) {
+      const gain = Math.max(4, Math.floor((game.bone * 1.4 + game.int * 0.8) * (1 + Math.random() * 0.35)));
+      game.qi = Math.min(100, game.qi + gain);
+    }
+    if (game.aiChronicleMode && getSavedModel()) {
+      await runAiChronicleYear();
+      return;
+    }
+    runLocalYear();
   }
   saveGame();
   renderPlay();
+  if (!game.pendingChoice) return syncWorld({ event: '岁月流转', outcome: game.history.at(-1)?.text || '' });
 }
 
-/* 6岁测灵根大事件 */
-function triggerMilestone6() {
-  game.pendingChoice = {
-    title: '六岁 · 仙门测灵大典',
-    desc: '清虚剑宗外门执事驾驭飞剑降临村镇，摆下测灵石碑。你走上前去，将手掌按在冰凉的石碑上……',
-    options: [
-      {
-        label: '全神贯注引气入体（测灵根资质）',
-        reqText: `[根骨≥5]`,
-        check: () => game.bone >= 5,
-        failMsg: '你的根骨平平，测灵石仅亮起微弱杂光，执事摇头叹息离去（获得基础《引气诀》，踏入炼气初期）。',
-        run: () => {
-          game.realm = 1; game.qi = 15; game.sect = '清虚剑宗·外门';
-          game.arts.push('《太虚引气诀》');
-          return { text: '测灵石冲起三丈青光！执事大喜，破格收你入清虚剑宗外门！', kind: 'good', delta: '境界晋升炼气初期 · 拜入清虚剑宗' };
-        },
-        onFail: () => {
-          game.realm = 1; game.qi = 5; game.sect = '江湖散修';
-          return { text: '测灵石微光一闪而逝，你被判定为下品杂灵根，唯有自己揣着残篇踏上散修之路。', kind: 'normal', delta: '踏入炼气初期 · 成为散修' };
-        }
+/* ==================== 严格分龄事件池 ==================== */
+/* 阶段 A：0~5岁 蒙童期（绝无打架杀人、绝无道侣双修，全是童年启蒙与伏笔） */
+function triggerStageNarrative(stage) {
+  if (stage === 'child') {
+    const childEvents = [
+      () => {
+        game.int += 1;
+        pushLog(game.age, `${game.age}岁，你跟着村里老秀才认字读书，口齿伶俐，比同龄孩童早慧许多。`, 'normal', '悟性+1');
       },
-      {
-        label: '暗中催动随身异宝遮掩锋芒',
-        reqText: `[悟性≥7 或 拥有仙品命格]`,
-        check: () => game.int >= 7 || game.talents.some(t => t.tier === 'red'),
-        failMsg: '你弄巧成拙，灵力乱窜震伤经脉（气运-1）。',
-        run: () => {
-          game.realm = 1; game.qi = 25; game.luck += 2; game.sect = '清虚剑宗·内门暗子';
-          return { text: '你隐匿惊世资质低调入门，暗中得传内门心法，避开了无数明枪暗箭！', kind: 'good', delta: '炼气初期 · 气运+2' };
-        },
-        onFail: () => {
-          game.realm = 1; game.luck = Math.max(1, game.luck - 1);
-          return { text: '灵力反噬令你当场吐血，执事皱眉将你丢进杂役房。', kind: 'major', delta: '炼气初期 · 气运-1' };
+      () => {
+        game.body += 1;
+        pushLog(game.age, `${game.age}岁，你整日在山坡上追逐野兔、爬树掏鸟窝，晒得黝黑，身体格外结实。`, 'normal', '体魄+1');
+      },
+      () => {
+        game.flags.helped_beggar = true;
+        pushLog(game.age, `${game.age}岁，你在村口把半块麦饼分给了一名衣衫褴褛的断臂老道，老道摸了摸你的头顶，留下一句“六岁仙缘至”便悄然离去。`, 'good', '埋下仙缘伏笔');
+      },
+      () => {
+        game.charm += 1;
+        pushLog(game.age, `${game.age}岁，你生得唇红齿白、粉雕玉琢，镇上的大娘们见了总爱塞给你几颗糖葫芦。`, 'normal', '魅力+1');
+      },
+      () => {
+        if (game.talents.some(t => t.id === 'ring_oldman')) {
+          pushLog(game.age, `${game.age}岁，你总觉得贴身戴着的古朴黑戒里偶尔传来微弱的叹息声，但大人都说你是做梦。`, 'good');
+        } else {
+          pushLog(game.age, `${game.age}岁，乡邻们常围在村口讲仙人御剑飞行的传说，你仰头望着云端，心中埋下向往。`, 'normal');
         }
       }
-    ]
-  };
-  saveGame(); renderPlay();
+    ];
+    childEvents[Math.floor(Math.random() * childEvents.length)]();
+    return;
+  }
+
+  if (stage === 'teen') {
+    const teenEvents = [
+      () => {
+        const q = 14 + game.int;
+        game.qi = Math.min(100, game.qi + q);
+        pushLog(game.age, `${game.age}岁，你在草庐中盘膝打坐，引天地灵气运转周天，修为稳步增长。`, 'normal', `修为+${q}%`);
+      },
+      () => {
+        game.stones += 6;
+        pushLog(game.age, `${game.age}岁，你与几位同龄少年结伴去后山采集止血草交予执事，换得六枚下品灵石。`, 'normal', '灵石+6');
+      },
+      () => {
+        game.int += 1;
+        pushLog(game.age, `${game.age}岁，你在宗门藏书阁一楼翻阅《东荒灵草图鉴》，将三百种灵药药性倒背如流。`, 'good', '悟性+1');
+      },
+      () => {
+        if (game.talents.some(t => t.id === 'ring_oldman') && !game.flags.ring_awake) {
+          game.flags.ring_awake = true;
+          game.int += 2;
+          pushLog(game.age, `${game.age}岁，深夜打坐时古戒终于苏醒！一道自称“玄天尊者”的残魂浮现，开始暗中传授你上古炼神法门！`, 'good', '魂戒老爷爷苏醒 · 悟性+2');
+        } else {
+          game.body += 1;
+          pushLog(game.age, `${game.age}岁，你在瀑布下练习基础剑式千遍，虎口震裂又愈合，根基愈发扎实。`, 'normal', '体魄+1');
+        }
+      }
+    ];
+    teenEvents[Math.floor(Math.random() * teenEvents.length)]();
+    return;
+  }
+
+  // 15岁以上青年/成年修仙期
+  const adultEvents = [
+    () => {
+      const s = 10 + game.luck;
+      game.stones += s;
+      pushLog(game.age, `你接下巡山除妖的宗门任务，斩杀几头一阶妖兽，顺利领取 ${s} 枚灵石赏格。`, 'normal', `灵石+${s}`);
+    },
+    () => {
+      const q = 15 + game.int;
+      game.qi = Math.min(100, game.qi + q);
+      pushLog(game.age, `你在洞府中焚香静坐，参悟功法玄奥，丹田气海愈发充盈。`, 'normal', `修为+${q}%`);
+    },
+    () => {
+      // 触发长线伏笔回收！
+      if (game.flags.picked_rusty_sword && !game.flags.sword_unsealed) {
+        game.flags.sword_unsealed = true;
+        game.items.push('太白庚金剑');
+        pushLog(game.age, `【因果应验】你少年时在旧货摊捡来的生锈铁片突然发出龙吟，剥落铁锈后竟化作一柄灵光璀璨的极品法宝【太白庚金剑】！`, 'good', '获得极品法宝【太白庚金剑】');
+      } else if (game.flags.helped_beggar && !game.flags.beggar_repaid) {
+        game.flags.beggar_repaid = true;
+        game.bone += 2; game.stones += 50;
+        pushLog(game.age, `【因果应验】一位白发独臂老者突然造访你的洞府，竟是你五岁时分过麦饼的断臂老道！他笑称了却红尘因果，赠你一枚洗髓丹与五十灵石！`, 'good', '根骨+2 · 灵石+50');
+      } else if (game.relations.length > 0) {
+        const rel = game.relations[Math.floor(Math.random() * game.relations.length)];
+        if (rel.type === '宿敌') {
+          game.body += 1;
+          pushLog(game.age, `宿敌【${rel.name}】派眼线在坊市外截杀你，被你提前察觉反杀，一番血战令你实战经验大增！`, 'major', '体魄+1');
+        } else {
+          game.qi = Math.min(100, game.qi + 18);
+          pushLog(game.age, `【${rel.name}】飞剑传书邀你赴灵茶之约，二人对坐论道三日，各有收获。`, 'love', '修为+18%');
+        }
+      } else {
+        game.luck += 1;
+        pushLog(game.age, `你在坊市茶楼听往来散修谈论东荒秘闻，对修仙界局势有了更深了解。`, 'normal', '气运+1');
+      }
+    }
+  ];
+  adultEvents[Math.floor(Math.random() * adultEvents.length)]();
 }
 
-/* 12岁散修奇遇补救 */
-function triggerMilestone12() {
-  game.realm = 1;
-  pushLog(12, '十二岁这年，你在山涧古洞中偶得一卷《长生吐纳术》，终于引气入体，踏入炼气初期！', 'good', '境界：炼气初期');
-  saveGame(); renderPlay();
-}
-
-/* 丰富的多分支命运抉择事件池 */
-function triggerDilemmaEvent() {
-  const pool = [
-    {
-      title: '密林偶遇 · 重伤的绝色女修',
-      desc: '你在荒山采药时，发现一名白衣女修靠在古松下吐血不止，她怀中紧抱着一只散发异香的玉盒，远处已有追兵破空声传来。',
+/* 严格分龄多分支抉择池 */
+function triggerStageDilemma(stage, selected) {
+  // 1. 0~5岁 蒙童期抉择（完全符合幼儿视角）
+  if (stage === 'child') {
+    game.pendingChoice = {
+      ref: { type: 'stage', stage },
+      title: `${game.age}岁 · 后山溪边的奇异石子`,
+      desc: '你在村后溪边玩耍时，水底泥沙里露出一块温热发亮的五彩石子，村里大人曾叮嘱过别乱捡山里的怪东西。',
       options: [
         {
-          label: '出手相救并护送她潜入隐秘山洞疗伤',
-          reqText: `[魅力≥7 或 体魄≥7]`,
-          check: () => game.charm >= 7 || game.body >= 7,
+          label: '好奇地揣进怀里带回家当宝贝',
+          reqText: `[气运≥5]`,
+          check: () => game.luck >= 5,
           run: () => {
-            game.charm += 1; game.stones += 30;
-            addOrUpdateRel('苏清雪', '冰心宫圣女', '道侣', 85, 90);
-            return { text: '你背着她施展敛息术躲过魔修追杀。苏清雪伤愈后对你芳心暗许，赠你三十灵石并愿与你结为生死道侣！', kind: 'love', delta: '结识道侣【苏清雪】 · 灵石+30 · 魅力+1' };
+            game.bone += 1; game.items.push('五彩温灵玉');
+            return { text: '那石子竟是一块天然温灵玉！日夜贴身佩戴温养了你的经脉，根骨悄然提升！', kind: 'good', delta: '根骨+1 · 获得【五彩温灵玉】' };
           },
           onFail: () => {
             game.body = Math.max(1, game.body - 1);
-            return { text: '追兵杀到，你拼死断后却不敌筑基魔修，被打成重伤坠下山崖，侥幸保住一命。', kind: 'major', delta: '体魄-1' };
+            return { text: '石子蕴含阴寒之气，冻得你大病一场，休养了半年才缓过来。', kind: 'major', delta: '体魄-1' };
           }
         },
         {
-          label: '趁人之危，夺取玉盒后远遁千里',
+          label: '听大人的话，丢回深水潭不管它',
+          reqText: `[稳妥懂事]`,
+          check: () => true,
+          run: () => {
+            game.int += 1;
+            return { text: '你不贪不躁转身回家帮父母干活，大人夸你沉稳懂事。', kind: 'normal', delta: '悟性+1' };
+          }
+        }
+      ]
+    };
+    return;
+  }
+
+  // 2. 6~14岁 少年求道期抉择（同门欺凌、旧货摊捡漏、藏经阁选书，无成人情爱）
+  if (stage === 'teen') {
+    const teenDilemmas = [
+      {
+        title: `${game.age}岁 · 坊市旧货摊的生锈铁片`,
+        desc: '你跟着师兄去山脚坊市采买，路边杂货摊角落里躺着一块巴掌大的生锈黑铁片，摊主随口要价三枚灵石。',
+        options: [
+          {
+            label: '花三枚灵石买下研究',
+            reqText: `[灵石≥3 且 (悟性≥6 或 气运≥6)]`,
+            check: () => game.stones >= 3 && (game.int >= 6 || game.luck >= 6),
+            run: () => {
+              game.stones -= 3; game.flags.picked_rusty_sword = true;
+              return { text: '你隐约觉得铁片内部藏着极强的金锐之气，买下后收进储物袋日夜以灵力温养（已埋下神兵伏笔）。', kind: 'good', delta: '灵石-3 · 获得神秘铁片' };
+            },
+            onFail: () => {
+              if (game.stones >= 3) game.stones -= 3;
+              return { text: '买回去用灵力试探了半天毫无反应，看来真是块普通废铁，白花了灵石。', kind: 'normal', delta: '灵石-3' };
+            }
+          },
+          {
+            label: '省下灵石去买一瓶正经的聚气散',
+            reqText: `[务实修炼]`,
+            check: () => true,
+            run: () => {
+              game.qi = Math.min(100, game.qi + 16);
+              return { text: '你不信捡漏传说，踏踏实实服药打坐，修为稳步推进。', kind: 'normal', delta: '修为+16%' };
+            }
+          }
+        ]
+      },
+      {
+        title: `${game.age}岁 · 演武场上的同门切磋`,
+        desc: '比你早入门两年的赵师兄仗着炼气三层修为，在演武场上抢占了灵气最浓的蒲团，出言讥讽你资质平庸。',
+        options: [
+          {
+            label: '不卑不亢，登台与他切磋十招',
+            reqText: `[体魄≥6 或 悟性≥7]`,
+            check: () => game.body >= 6 || game.int >= 7,
+            run: () => {
+              game.body += 1; game.stones += 10;
+              return { text: '你凭借精妙步法逼平赵师兄，围观执事大加赞赏，赏你十枚灵石以示鼓励！', kind: 'good', delta: '体魄+1 · 灵石+10' };
+            },
+            onFail: () => {
+              game.body = Math.max(1, game.body - 1);
+              return { text: '你修为尚浅，被一掌震下演武台，在床上躺了半个月。', kind: 'major', delta: '体魄-1' };
+            }
+          },
+          {
+            label: '隐忍退让，去偏僻竹林独自苦修',
+            reqText: `[三十年河东]`,
+            check: () => true,
+            run: () => {
+              game.qi = Math.min(100, game.qi + 18); game.int += 1;
+              return { text: '君子报仇十年不晚，你把屈辱化作动力，在竹林中悟通了行气窍门！', kind: 'normal', delta: '修为+18% · 悟性+1' };
+            }
+          }
+        ]
+      }
+    ];
+    const index = selected ?? Math.floor(Math.random() * teenDilemmas.length);
+    game.pendingChoice = { ...teenDilemmas[index], ref: { type: 'stage', stage, index } };
+    return;
+  }
+
+  // 3. 15岁以上 成年修仙期抉择（此时才合理解锁道侣、秘境夺宝、残魂出手、宗门争锋）
+  const adultDilemmas = [
+    {
+      title: `${game.age}岁 · 寒潭偶遇重伤的冰心宫圣女`,
+      desc: '你在深山寒潭采药时，发现一名白衣女修靠在冰岩下吐血不止，她怀中紧抱着一只散发异香的玉盒，远处已有魔修破空追来。',
+      options: [
+        {
+          label: '布下隐匿阵法相助，护她躲过魔修搜捕',
+          reqText: `[魅力≥7 或 体魄≥7]`,
+          check: () => game.charm >= 7 || game.body >= 7,
+          run: () => {
+            game.charm += 1; game.stones += 35;
+            addOrUpdateRel('苏清雪', '冰心宫圣女', '道侣', 85, 95);
+            return { text: '魔修退去后，苏清雪感念你危难相救且君子坦荡，互换本命玉简，与你结为生死道侣！', kind: 'love', delta: '结识道侣【苏清雪】 · 灵石+35 · 魅力+1' };
+          },
+          onFail: () => {
+            game.body = Math.max(1, game.body - 1);
+            return { text: '追兵杀到，你拼死断后却不敌筑基魔修，被打成重伤坠下山崖才保住一命。', kind: 'major', delta: '体魄-1' };
+          }
+        },
+        {
+          label: '趁人之危夺取玉盒，远遁千里',
           reqText: `[体魄≥6]`,
           check: () => game.body >= 6,
           run: () => {
             game.qi = Math.min(100, game.qi + 35); game.stones += 45;
-            addOrUpdateRel('苏清雪', '冰心宫圣女', '宿敌', -90, 95);
-            return { text: '你果断出手夺走玉盒，里面竟是一枚百年灵果！吞服后修为暴涨，但冰心宫圣女已立誓不死不休。', kind: 'major', delta: '修为+35% · 灵石+45 · 结下宿敌【苏清雪】' };
+            addOrUpdateRel('苏清雪', '冰心宫圣女', '宿敌', -90, 100);
+            return { text: '你果断夺走玉盒炼化其中灵果，修为暴涨！但冰心宫圣女已立下天道誓言必杀你。', kind: 'major', delta: '修为+35% · 灵石+45 · 结下宿敌【苏清雪】' };
           },
           onFail: () => {
             game.maxAge -= 5;
-            return { text: '她临死反扑祭出本命冰魄针，寒毒入骨，折损你五年寿元！', kind: 'major', delta: '寿元上限-5年' };
+            return { text: '她临危反扑祭出本命冰魄针，寒毒入骨折损你五年寿元！', kind: 'major', delta: '寿元上限-5年' };
           }
         },
         {
-          label: '明哲保身，抹去脚印悄然退走',
-          reqText: `[气运≥5]`,
+          label: '明哲保身，抹去痕迹悄然退走',
+          reqText: `[不沾因果]`,
           check: () => true,
           run: () => {
-            game.qi = Math.min(100, game.qi + 10);
-            return { text: '你不沾因果悄然离去，回去闭关一年，心境愈发通透。', kind: 'normal', delta: '修为+10%' };
+            game.qi = Math.min(100, game.qi + 12);
+            return { text: '你不惹是非悄然返回洞府闭关，修为稳步精进。', kind: 'normal', delta: '修为+12%' };
           }
         }
       ]
     },
     {
-      title: '古修洞府 · 石壁残缺剑痕',
-      desc: '你在深渊底部发现一座坐化剑修的洞府，石壁上刻着三道凌厉无匹的剑痕，看久了神识刺痛欲裂。',
+      title: `${game.age}岁 · 古修洞府石壁残缺剑痕`,
+      desc: '你在落日峡谷深处发现一座坐化前辈的洞府，石壁上刻着三道凌厉无匹的剑痕，看久了神识刺痛欲裂。',
       options: [
         {
           label: '盘膝而坐，以神识强行参悟剑意',
@@ -756,78 +1027,45 @@ function triggerDilemmaEvent() {
           },
           onFail: () => {
             game.int = Math.max(1, game.int - 1);
-            return { text: '剑意太过霸道，反震伤了你的识海，昏迷三月方醒。', kind: 'major', delta: '悟性-1' };
+            return { text: '剑意太过霸道反震伤了识海，昏迷三月方醒。', kind: 'major', delta: '悟性-1' };
           }
         },
         {
-          label: '撬走洞府蒲团下的宝匣就跑',
+          label: '破开蒲团下暗格，取走遗宝便走',
           reqText: `[气运≥7]`,
           check: () => game.luck >= 7,
           run: () => {
             game.items.push('青冥古剑'); game.stones += 35;
-            return { text: '你避开洞府禁制，成功取走前辈遗留的法宝【青冥古剑】与一袋灵石！', kind: 'good', delta: '获得法宝【青冥古剑】 · 灵石+35' };
+            return { text: '你避开洞府残阵，顺利取走前辈遗留的法宝【青冥古剑】与灵石！', kind: 'good', delta: '获得法宝【青冥古剑】 · 灵石+35' };
           },
           onFail: () => {
             game.stones = Math.max(0, game.stones - 15);
-            return { text: '触动护洞阵法，护身宝物尽毁才狼狈逃出。', kind: 'major', delta: '灵石-15' };
+            return { text: '触动护洞禁制，损毁了不少身家才狼狈逃出。', kind: 'major', delta: '灵石-15' };
           }
         }
       ]
     },
     {
-      title: '坊市黑吃黑 · 嚣张的世家少主',
-      desc: '你在万宝楼刚拍下一株百年紫猴花，门外便被青阳城赵家少主带两名护卫拦住：“这灵草本少爷看上了，十枚灵石卖我，滚吧。”',
+      title: `${game.age}岁 · 魔道圣女的月下邀约`,
+      desc: '月黑风高，九幽魔殿妖女夜琉璃悄无声息出现在你洞府窗前，笑吟吟递来一杯灵酒：“正道规矩繁琐，道友不如随我共参双修大道？”',
       options: [
         {
-          label: '拔剑出鞘，当街斩杀立威',
-          reqText: `[体魄≥8 或 境界≥筑基初期]`,
-          check: () => game.body >= 8 || game.realm >= 5,
-          run: () => {
-            game.stones += 60; game.body += 1;
-            addOrUpdateRel('赵家老祖', '青阳城金丹修士', '宿敌', -80, 140);
-            return { text: '你一招毙敌，搜刮其储物袋大赚一笔！消息传开，青阳城赵家老祖已发出追杀令。', kind: 'major', delta: '灵石+60 · 体魄+1 · 结下宿敌【赵家老祖】' };
-          },
-          onFail: () => {
-            game.stones = Math.max(0, game.stones - 25); game.body = Math.max(1, game.body - 1);
-            return { text: '你低估了护卫实力，被联手打伤并抢走灵石！', kind: 'major', delta: '灵石-25 · 体魄-1' };
-          }
-        },
-        {
-          label: '报出师门或展现惊人财力震慑对方',
-          reqText: `[魅力≥8 或 灵石≥80]`,
-          check: () => game.charm >= 8 || game.stones >= 80,
-          run: () => {
-            game.luck += 1;
-            return { text: '你气度不凡，一言震慑宵小，赵家少主疑心你是大宗真传，抱拳赔罪而去。', kind: 'good', delta: '气运+1' };
-          },
-          onFail: () => {
-            game.stones = Math.max(0, game.stones - 10);
-            return { text: '对方根本不吃这一套，你只得破财消灾。', kind: 'normal', delta: '灵石-10' };
-          }
-        }
-      ]
-    },
-    {
-      title: '魔道妖女的深夜邀约',
-      desc: '月黑风高，合欢宗妖女夜琉璃悄无声息出现在你洞府窗前，笑吟吟递来一杯灵酒：“道友一人苦修多寂寞，不如随我共参阴阳大道？”',
-      options: [
-        {
-          label: '欣然赴约，与她共参双修秘法',
+          label: '欣然赴约，与她共参阴阳双修秘法',
           reqText: `[魅力≥7 或 根骨≥8]`,
           check: () => game.charm >= 7 || game.bone >= 8,
           run: () => {
-            game.qi = Math.min(100, game.qi + 40); game.bone += 1;
-            addOrUpdateRel('夜琉璃', '合欢宗圣女', '道侣', 90, 110);
-            return { text: '一夜春风度，你不仅修为突飞猛进，更俘获了魔道妖女的芳心，二人暗结道侣之约！', kind: 'love', delta: '修为+40% · 根骨+1 · 结识道侣【夜琉璃】' };
+            game.qi = Math.min(100, game.qi + 38); game.bone += 1;
+            addOrUpdateRel('夜琉璃', '魔殿圣女', '道侣', 90, 115);
+            return { text: '一夜春风度，你不仅修为突飞猛进，更俘获了魔殿圣女的芳心，二人暗结道侣之约！', kind: 'love', delta: '修为+38% · 根骨+1 · 结识道侣【夜琉璃】' };
           },
           onFail: () => {
             game.maxAge -= 8;
-            return { text: '你阳气不足反被她采补了本源精气，寿元折损八年！', kind: 'major', delta: '寿元上限-8年' };
+            return { text: '你根基不稳反被她采补了本源精气，寿元折损八年！', kind: 'major', delta: '寿元上限-8年' };
           }
         },
         {
           label: '道心如铁，一剑斩碎酒杯逐客',
-          reqText: `[悟性≥6]`,
+          reqText: `[道心坚定]`,
           check: () => true,
           run: () => {
             game.int += 1; game.qi = Math.min(100, game.qi + 15);
@@ -838,87 +1076,473 @@ function triggerDilemmaEvent() {
     }
   ];
 
-  // 如果有仙品天赋“戒指里的残魂”，额外插入专属事件
-  if (game.talents.some(t => t.id === 'ring_oldman') && Math.random() < 0.35) {
+  if (selected === 'ring' || (selected === undefined && game.talents.some(t => t.id === 'ring_oldman') && Math.random() < 0.35)) {
     game.pendingChoice = {
-      title: '魂戒异动 · 残魂老爷爷苏醒',
-      desc: '你手指上的古戒突然发烫，一道白发苍苍的虚影浮现：“小子，前面黑风谷底有地心炎髓，但有四阶妖兽镇守，可敢随老夫去夺造化？”',
+      ref: { type: 'stage', stage, index: 'ring' },
+      title: `${game.age}岁 · 魂戒异动：地心炎髓`,
+      desc: '手指上的魂戒突然发烫，玄天尊者虚影浮现：“小子，前面黑风谷底有地心炎髓，虽有四阶妖兽镇守，但老夫还留有一道神念护身，可敢去搏一搏？”',
       options: [
         {
-          label: '信老爷爷！联手深入黑风谷夺取炎髓',
+          label: '信尊者！联手深入谷底夺取炎髓',
           reqText: `[拥有命格：戒指里的残魂]`,
           check: () => true,
           run: () => {
             game.bone += 2; game.qi = 100; game.items.push('地心炎髓');
-            return { text: '老爷爷借你神识之力一掌拍晕妖兽，你炼化地心炎髓，修为瞬间圆满！', kind: 'good', delta: '修为直达100% · 根骨+2' };
+            return { text: '玄天尊者借你神识之力震慑妖兽，你成功炼化地心炎髓，当前境界修为瞬间圆满！', kind: 'good', delta: '修为直达100% · 根骨+2' };
           }
         },
         {
-          label: '太危险了，先稳妥打坐几年再说',
-          reqText: `[稳健行事]`,
+          label: '太过凶险，还是稳妥苦修为上',
+          reqText: `[稳健发育]`,
           check: () => true,
           run: () => {
             game.qi = Math.min(100, game.qi + 20);
-            return { text: '老爷爷恨铁不成钢地哼了一声，指点了你几句吐纳法门。', kind: 'normal', delta: '修为+20%' };
+            return { text: '尊者叹你过于谨慎，但也指点了你几句吐纳窍门。', kind: 'normal', delta: '修为+20%' };
           }
         }
       ]
     };
   } else {
-    game.pendingChoice = pool[Math.floor(Math.random() * pool.length)];
+    const index = selected ?? Math.floor(Math.random() * adultDilemmas.length);
+    game.pendingChoice = { ...adultDilemmas[index], ref: { type: 'stage', stage, index } };
   }
 }
 
-/* 普通年份流转叙事 */
-function triggerNarrativeEvent() {
-  const events = [
-    () => {
-      const s = 6 + game.luck;
-      game.stones += s;
-      pushLog(game.age, `你在山门外接了护送商队的差事，一路平安，赚得 ${s} 枚灵石。`, 'normal', `灵石+${s}`);
-    },
-    () => {
-      const q = 12 + game.int;
-      game.qi = Math.min(100, game.qi + q);
-      pushLog(game.age, `你在洞府静坐观雨，对天地灵气运转又多了一分体悟。`, 'normal', `修为+${q}%`);
-    },
-    () => {
-      if (game.relations.length > 0) {
-        const rel = game.relations[Math.floor(Math.random() * game.relations.length)];
-        if (rel.type === '宿敌') {
-          game.body += 1;
-          pushLog(game.age, `宿敌【${rel.name}】派杀手夜袭你的洞府，被你反杀，实战磨砺令你体魄精进！`, 'major', '体魄+1');
-        } else {
-          const q = 18;
-          game.qi = Math.min(100, game.qi + q);
-          pushLog(game.age, `【${rel.name}】传信邀你赴茶会论道，一番交流令你受益匪浅。`, 'love', `修为+${q}%`);
+/* 6岁测灵根大事件 */
+function triggerMilestone6() {
+  game.pendingChoice = {
+    ref: { type: 'milestone6' },
+    title: '六岁 · 仙门测灵大典',
+    desc: '清虚剑宗外门执事驾驭飞剑降临村镇，摆下测灵石碑。六岁的你排在队伍中，紧张地将小手按在冰凉的石碑上……',
+    options: [
+      {
+        label: '屏息凝神，静待测灵石反应',
+        reqText: `[根骨≥5]`,
+        check: () => game.bone >= 5,
+        run: () => {
+          game.realm = 1; game.qi = 15; game.sect = '清虚剑宗·外门';
+          game.arts.push('《太虚引气诀》');
+          return { text: '测灵石冲起三丈青光！执事大喜，破格收你入清虚剑宗外门，正式踏上仙途！', kind: 'good', delta: '晋升炼气初期 · 拜入清虚剑宗' };
+        },
+        onFail: () => {
+          game.realm = 1; game.qi = 5; game.sect = '江湖散修';
+          return { text: '测灵石微光一闪而逝，你被判定为下品杂灵根，执事留下一本基础《引气册》便摇头离去。', kind: 'normal', delta: '踏入炼气初期 · 成为散修' };
         }
-      } else {
-        game.luck += 1;
-        pushLog(game.age, `你在古道茶摊随手施舍了一名落魄老乞丐，对方临走前留下一句莫名谶语。`, 'good', '气运+1');
+      },
+      {
+        label: '在心中默念命格口诀遮掩锋芒',
+        reqText: `[悟性≥7 或 拥有仙品命格]`,
+        check: () => game.int >= 7 || game.talents.some(t => t.tier === 'red'),
+        run: () => {
+          game.realm = 1; game.qi = 25; game.luck += 2; game.sect = '清虚剑宗·内门';
+          return { text: '你低调入门后反而被一位隐世峰主看中，暗中收入门下传授真传心法！', kind: 'good', delta: '炼气初期 · 气运+2' };
+        },
+        onFail: () => {
+          game.realm = 1; game.sect = '清虚剑宗·杂役'; game.luck = Math.max(1, game.luck - 1);
+          return { text: '你胡乱运转呼吸弄得脸色涨红，执事以为你体弱多病，把你分进了杂役院。', kind: 'major', delta: '炼气初期 · 气运-1' };
+        }
       }
-    },
-    () => {
-      if (game.stones >= 12) {
-        game.stones -= 12;
-        game.qi = Math.min(100, game.qi + 22);
-        pushLog(game.age, `你在万宝楼购入几瓶聚气丹闭关吞服，修为稳步提升。`, 'normal', '灵石-12 · 修为+22%');
-      } else {
-        game.stones += 8;
-        pushLog(game.age, `你替丹房采药一载，赚了些许灵石补贴家用。`, 'normal', '灵石+8');
-      }
-    }
-  ];
-  events[Math.floor(Math.random() * events.length)]();
+    ]
+  };
 }
 
+/* 16岁宗门大比（与天骄同台竞技） */
+function triggerSectTournament16() {
+  const rival = game.prodigies[0] || { name: '叶孤城', realm: 3 };
+  game.pendingChoice = {
+    ref: { type: 'tournament16' },
+    title: '十六岁 · 清虚剑宗外门大比',
+    desc: `十年一度的外门大比开启，前十名可晋升内门并赐予筑基丹。你在擂台上抽中的对手，正是名震剑宗的天骄「${rival.name}」（${REALMS[rival.realm]}）！`,
+    options: [
+      {
+        label: '全力以赴，祭出全部底牌正面争锋',
+        reqText: `[综合战力≥${rival.realm * 22 + 20}]`,
+        check: () => calcPower() >= rival.realm * 22 + 20,
+        run: () => {
+          game.sect = '清虚剑宗·内门真传'; game.stones += 60; game.int += 1;
+          rival.relation = '惺惺相惜的劲敌';
+          return { text: `历经百余回合激战，你竟硬生生击败了天骄${rival.name}，一战成名晋升内门真传！`, kind: 'good', delta: '晋升内门真传 · 灵石+60 · 悟性+1' };
+        },
+        onFail: () => {
+          game.body += 1; game.stones += 20; rival.relation = '待超越的目标';
+          return { text: `你虽败在${rival.name}剑下，但顽强斗志赢得长老认可，赐下二十灵石勉励。`, kind: 'normal', delta: '灵石+20 · 体魄+1' };
+        }
+      },
+      {
+        label: '点到为止保存实力，力争稳进前十即可',
+        reqText: `[体魄≥6 或 悟性≥6]`,
+        check: () => game.body >= 6 || game.int >= 6,
+        run: () => {
+          game.sect = '清虚剑宗·内门弟子'; game.stones += 30;
+          return { text: '你避开锋芒稳扎稳打，顺利跻身前十晋升内门弟子！', kind: 'good', delta: '晋升内门弟子 · 灵石+30' };
+        },
+        onFail: () => {
+          return { text: '大比高手如云，你遗憾止步十六强，继续留在外门潜修。', kind: 'normal', delta: '' };
+        }
+      }
+    ]
+  };
+}
+
+/* 早年的决定会改变后续事件的条件和结算。 */
+function lifeOption(label, reqText, run, check = () => true, onFail) {
+  return { label, reqText, run, check, onFail };
+}
+function lifeResult(text, delta = '', kind = 'good') { return { text, delta, kind }; }
+function learnArt(name) { if (!game.arts.includes(name)) game.arts.push(name); }
+
+const lifeThreads = {
+  flood: () => ({
+    title: '四岁 · 河水涨进院里',
+    desc: '雨下了一夜。你家的小鸡还没收，隔壁阿榆家的药匣也滚到了门边。',
+    options: [
+      lifeOption('把阿榆的药匣搬到门槛上', '[阿榆会记得这件事]', () => {
+        game.flags.helped_yu = true;
+        return lifeResult('你踩着水把药匣推上了门槛。阿榆抱住匣子，等雨停了来还你一双干草鞋。');
+      }),
+      lifeOption('回家帮娘把鸡赶到高处', '[体魄+1]', () => {
+        game.body += 1;
+        return lifeResult('那几只鸡比你跑得快。第二天你发现少了一只，晚饭时它自己回来了。', '体魄+1');
+      }),
+    ],
+  }),
+  medicine: () => ({
+    title: '八岁 · 药圃缺个帮手',
+    desc: game.flags.helped_yu ? '阿榆带你去找药师，说那匣药当年多亏了你。药师问你愿不愿意来帮一个秋天。'
+      : '山下药师正招帮手。阿榆说给你留了个位置，不过早晨得赶在集市开门前到。',
+    options: [
+      lifeOption('跟阿榆一起进药圃，学辨药', '[记住药性 · 灵石+6]', () => {
+        game.flags.herb_training = true;
+        game.stones += 6;
+        return lifeResult('你替她尝过三种带苦味的药，记住哪种嚼到最后会回甜。掌柜结了六枚灵石。', '灵石+6 · 学会辨药');
+      }),
+      lifeOption('留在家中读抄来的吐纳诀', '[悟性+1]', () => {
+        game.int += 1;
+        return lifeResult('你总把同一句念反。抄了两页，才发现师兄给你的那张纸也写错了。', '悟性+1');
+      }),
+    ],
+  }),
+  talisman: () => ({
+    title: '十一岁 · 渡口的欠条',
+    desc: '船夫老魏少了三枚灵石才凑齐修船钱。你常从这条渡口过，他问你能不能借他三枚。',
+    options: [
+      lifeOption('借他三枚灵石，收下欠条', '[灵石≥3]', () => {
+        game.stones -= 3; game.flags.ferry_debt = true;
+        return lifeResult('老魏在欠条上画了个船锚，说他不会写字，你拿这张纸来找他就行。', '灵石-3 · 留下欠条');
+      }, () => game.stones >= 3, () => lifeResult('你摸遍了衣兜。老魏看你急，摆摆手说他再问问鱼贩。', '', 'normal')),
+      lifeOption('留一根结实的麻绳给他', '[体魄+1]', () => {
+        game.body += 1;
+        return lifeResult('老魏收了绳，教你怎么用活结拴船。后来你负重练步法，就用这套结。', '体魄+1');
+      }),
+    ],
+  }),
+  herbalChoice: () => ({
+    title: '十七岁 · 阿榆留下的药篮',
+    desc: '阿榆把药篮往桌上一放。城里有人拿染过色的草充货，她已经找到了卖家，问你敢不敢和她去对账。',
+    options: [
+      lifeOption('凭当年学过的药性，验货对账', '[八岁学过辨药]', () => {
+        game.stones += 24; learnArt('《百草辨真录》'); game.flags.pharmacy_credit = true;
+        return lifeResult('你当场掰断一根草给买主看。买主追回药钱，给你二十四枚谢礼。阿榆把这些年的辨药笔记借给了你。', '灵石+24 · 百草辨真录');
+      }, () => !!game.flags.herb_training, () => lifeResult('你看不准断面，没敢在众人面前下断语。阿榆收了药篮，改天请老师傅来。', '', 'normal')),
+      lifeOption('护送阿榆去找老师傅', '[先顾人身安全]', () => {
+        game.charm += 1; game.flags.pharmacy_credit = true;
+        return lifeResult('你们绕开了赌坊门口守着的人，走到药师家已是傍晚。阿榆说，下次进货会先通知你。', '魅力+1 · 获得药铺信任');
+      }),
+    ],
+  }),
+  ferryChoice: () => ({
+    title: '二十岁 · 水门下的旧账',
+    desc: '老魏儿子修好了渡船，打捞时还捞到一卷水下洞府的竹简。坊市有人等着买，他把选择交给你。',
+    options: [
+      lifeOption('出示旧欠条，请他带你去原处', '[十一岁借过灵石]', () => {
+        game.flags.ferry_debt = false; learnArt('《涉水步》'); game.qi = Math.min(100, game.qi + 18);
+        return lifeResult('他认出欠条上的船锚，把你送到水门背面。洞府没什么金银，留下的步法倒很适合渡河。', '获得涉水步 · 修为最多+18%');
+      }, () => !!game.flags.ferry_debt, () => lifeResult('他要留船养家，没答应再下水。你替他把竹简送到了坊市。', '', 'normal')),
+      lifeOption('代他卖掉竹简，抽一份佣金', '[灵石+18]', () => {
+        game.stones += 18;
+        return lifeResult('竹简卖了个平价。他替你留了十八枚佣金，还说以后坐船不用找零钱。', '灵石+18');
+      }),
+    ],
+  }),
+  pharmacy: () => ({
+    title: '二十二岁 · 一炉丹，两个买主',
+    desc: '阿榆匀出一炉养元丹。宗门办事堂愿先付钱，山下医馆却愿用方子来换。这笔买卖她让你选。',
+    options: [
+      lifeOption('把丹送给办事堂，现结灵石', '[灵石+36]', () => {
+        game.stones += 36; game.flags.sold_to_sect = true;
+        return lifeResult('管事验过丹，付了三十六枚灵石，又把你的名字记进了下次采买的名单。', '灵石+36');
+      }),
+      lifeOption('留给医馆，换他们的养元方', '[习得丹方]', () => {
+        learnArt('《养元丹方》'); game.flags.clinic_trade = true;
+        return lifeResult('医馆先生把方子抄给你，还用朱笔圈出错一味就会烧糊的地方。', '获得养元丹方');
+      }),
+    ],
+  }),
+  letter: () => ({
+    title: '十八岁 · 比完大比，还有一封信',
+    desc: game.sect.includes('内门') ? '当年擂台上的叶孤城来信，说有一式剑法总收不住力，想找你拆两招。'
+      : '叶孤城记得你上台时的起手式。他寄来一页剑稿，问你那天为什么没有用完那一招。',
+    options: [
+      lifeOption('回信细说，约他一道拆招', '[习得一式剑法]', () => {
+        game.prodigies[0].relation = '相互指点的剑友';
+        learnArt('《回锋一式》');
+        return lifeResult('约期那天，他带了两柄木剑。你把起手式练给他看，他教你怎样收回最后半寸。', '获得回锋一式');
+      }),
+      lifeOption('去见他，请他引荐一趟护送差事', '[灵石+20]', () => {
+        game.stones += 20; game.prodigies[0].relation = '一起接过宗门差事';
+        return lifeResult('他合上剑稿，找出一张送药单。你们半路走错了渡口，赶到时还来得及交货。', '灵石+20');
+      }),
+    ],
+  }),
+  tradeFollowup: () => ({
+    title: '二十六岁 · 当年的买主又来了',
+    desc: game.flags.clinic_trade ? '医馆的孩子都能认出你的丹瓶了。馆主缺人守炉，愿将下一季药单分你一半。'
+      : '宗门管事拿着当年的进货簿找来。这回他要订下三批丹，问你愿不愿意签长期约。',
+    options: [
+      lifeOption('接下这笔生意，把灵石投回药圃', '[投入12灵石]', () => {
+        game.stones += 26; game.flags.apothecary = true;
+        return lifeResult('你先垫了十二枚买药，忙到入冬才收齐账。合计净剩二十六枚，阿榆也愿意继续供货。', '净赚26灵石');
+      }, () => game.stones >= 12, () => lifeResult('手里周转的钱不够。你请阿榆接这批货，她愿意下回再来找你。', '', 'normal')),
+      lifeOption('把买卖让给阿榆，换她帮你配丹', '[根骨+1]', () => {
+        game.bone += 1;
+        return lifeResult('她接过账本，按你的体质慢慢改了方。你服了半季，运气时胸口再也不发紧。', '根骨+1');
+      }),
+    ],
+  }),
+};
+function setLifeChoice(id) {
+  game.pendingChoice = { ...lifeThreads[id](), ref: { type: 'thread', id } };
+}
+function runLifeThread() {
+  const id = ({ 4: 'flood', 8: 'medicine', 11: 'talisman', 17: 'herbalChoice', 20: 'ferryChoice' })[game.age]
+    || (game.age === 18 && game.flags.sect_exam_16 ? 'letter' : null)
+    || (game.age === 22 && game.flags.pharmacy_credit ? 'pharmacy' : null)
+    || (game.age === 26 && (game.flags.clinic_trade || game.flags.sold_to_sect) ? 'tradeFollowup' : null);
+  if (!id || game.flags['thread_' + id]) return false;
+  game.flags['thread_' + id] = true;
+  setLifeChoice(id);
+  return true;
+}
+
+/* 模型为天骄挑选行动，规则结算目标、进展和人际关系。 */
+const WORLD_ACTIONS = {
+  study: { name: '随师读书识药', goal: '打好基础', age: 0 },
+  train: { name: '回师门专心修炼', goal: '积累破境底蕴', age: 6 },
+  explore: { name: '探查山中的旧道', goal: '探明旧道', age: 15 },
+  alchemy: { name: '试配药方', goal: '完成一版新丹方', age: 12 },
+  cooperate: { name: '邀请同辈互换心得', goal: '结交同辈', age: 12 },
+  compete: { name: '与同辈切磋争先', goal: '磨练本领', age: 15 },
+};
+const WORLD_INSTRUCTIONS = '可另返回 worldUpdates 数组，为至多两名天骄提出同期行动。每项格式 {"id":"人物ID","action":"可用行动ID","target":"另一名人物ID，仅合作或竞争需要"}。按已知目标、近期经历、年龄和关系选择，可给空数组；已结盟的两人不能直接竞争，关系紧张的两人不能直接合作。只提交提案，不得宣布突破、改年龄、安排死亡或改变玩家数值。可让人物忙自己的事。';
+
+function worldContext(action) {
+  return {
+    year: game.age,
+    playerAction: action,
+    actions: Object.entries(WORLD_ACTIONS).map(([id, a]) => ({ id, action: a.name, minAge: a.age })),
+    npcs: game.prodigies.map(p => ({
+      id: p.id, name: p.name, age: p.age, sect: p.sect, realm: REALMS[p.realm], status: p.status,
+      goal: WORLD_ACTIONS[p.worldAction]?.goal, progress: p.worldProgress || 0, milestones: p.worldMilestones || {},
+    })),
+    relationships: game.worldTies || {},
+    recentWorld: (game.worldHistory || []).slice(-6),
+  };
+}
+function applyWorldUpdates(updates) {
+  if (!Array.isArray(updates)) return;
+  const acted = new Set();
+  let accepted = 0;
+  for (const entry of updates.slice(0, 6)) {
+    if (!entry || typeof entry.action !== 'string' || !Object.hasOwn(WORLD_ACTIONS, entry.action)) continue;
+    const npc = game.prodigies.find(p => p.id === entry.id);
+    const rule = WORLD_ACTIONS[entry.action];
+    if (!npc || acted.has(npc.id) || npc.age < rule.age) continue;
+    let news = npc.name + '：' + rule.name;
+    if (entry.action === 'cooperate' || entry.action === 'compete') {
+      const target = game.prodigies.find(p => p.id === entry.target && p.id !== npc.id);
+      if (!target || target.age < rule.age) continue;
+      const pair = [npc.id, target.id].sort().join('/');
+      const score = game.worldTies?.[pair] || 0;
+      const friendly = entry.action === 'cooperate';
+      if (game.worldTieYears?.[pair] === game.age || (friendly ? score < -1 : score > 1)) continue;
+      const nextScore = Math.max(-3, Math.min(3, score + (friendly ? 1 : -1)));
+      (game.worldTies ??= {})[pair] = nextScore;
+      (game.worldTieYears ??= {})[pair] = game.age;
+      news = friendly ? `${npc.name}与${target.name}交换修行心得` : `${npc.name}与${target.name}比试，约好日后再分高下`;
+      if (score < 2 && nextScore >= 2) news += '，两人结成同道';
+      if (score > -2 && nextScore <= -2) news += '，两人已有争端';
+    }
+    // 一年只积累一次目标进展。同年遇到拍卖抉择仍可记下社会关系。
+    if (npc.worldProgressAge !== game.age) {
+      npc.worldProgress = npc.worldAction === entry.action && npc.worldProgressAge === game.age - 1 ? (npc.worldProgress || 0) + 1 : 1;
+      npc.worldAction = entry.action;
+      npc.worldProgressAge = game.age;
+      if (npc.worldProgress === 3) {
+        const milestones = npc.worldMilestones ??= {};
+        milestones[entry.action] = (milestones[entry.action] || 0) + 1;
+        news += '，完成阶段目标「' + rule.goal + '」';
+      }
+    }
+    acted.add(npc.id);
+    const history = game.worldHistory ??= [];
+    history.push({ age: game.age, text: news });
+    if (history.length > 24) history.shift();
+    pushLog(game.age, '【同期江湖】' + news, 'world');
+    if (++accepted === 2) break;
+  }
+}
+
+function worldTurnFinished(slot) {
+  return game.worldTurns?.[slot] === game.age;
+}
+function markWorldTurn(slot) {
+  (game.worldTurns ??= {})[slot] = game.age;
+}
+
+function syncWorld(action, slot = 'year') {
+  if (!game.alive || !game.aiChronicleMode || !getSavedModel() || worldTurnFinished(slot)) return;
+  const job = { age: game.age, slot, action };
+  game.worldPending = job;
+  saveGame();
+  return resumeWorld();
+}
+
+async function resumeWorld() {
+  const job = game?.worldPending;
+  if (!job || busy) return;
+  if (!game.alive || job.age !== game.age || worldTurnFinished(job.slot) || !game.aiChronicleMode || !getSavedModel()) {
+    delete game.worldPending;
+    saveGame();
+    return;
+  }
+  busy = true;
+  renderPlay();
+  try {
+    const out = await callAI(WORLD_INSTRUCTIONS + '。输出严格 JSON，仅返回 worldUpdates。', worldContext(job.action));
+    if (!Array.isArray(out?.worldUpdates)) throw new Error('模型未返回世界行动');
+    applyWorldUpdates(out.worldUpdates);
+  } catch {
+    showToast('本次背景推演未完成，已保留你的选择和本地世界进展。', true);
+  } finally {
+    markWorldTurn(job.slot);
+    delete game.worldPending;
+    saveGame();
+    busy = false;
+    renderPlay();
+  }
+}
+
+function worldAfterChoice(choice, result, option) {
+  return syncWorld({
+    event: choice.title, option,
+    outcome: result,
+  }, choice.ref?.type === 'auction' ? 'auction' : 'year');
+}
+
+/* ==================== AI 编年史 ==================== */
+function bounded(value, low, high) {
+  return typeof value === 'number' && Number.isFinite(value) ? Math.max(low, Math.min(high, Math.trunc(value))) : 0;
+}
+function restrictAiOutcome(out, custom) {
+  if (!out || typeof out.story !== 'string' || !out.story.trim()) throw new Error('模型未返回有效剧情');
+  const limits = custom ? { stonesDelta: [-30, 60], qiDelta: [-20, 45], ageDelta: [-10, 5] }
+    : { stonesDelta: [-15, 35], qiDelta: [0, 30] };
+  for (const name of ['bone', 'int', 'body', 'luck', 'charm']) limits[name + 'Delta'] = custom ? [-1, 2] : [0, 1];
+  for (const [key, [low, high]] of Object.entries(limits)) out[key] = bounded(out[key], low, high);
+  if (!game.realm) out.qiDelta = 0;
+  if (game.age < 15) { out.died = false; out.newItem = ''; out.ageDelta = 0; }
+  out.newItem = typeof out.newItem === 'string' ? out.newItem.trim().slice(0, 40) : '';
+  out.story = out.story.slice(0, 500);
+  if (!['normal', 'good', 'major', 'love'].includes(out.kind) || (game.age < 15 && out.kind === 'love')) out.kind = 'normal';
+  return out;
+}
+async function runAiChronicleYear() {
+  busy = true;
+  const btnNext = document.getElementById('btn-next-year');
+  btnNext.disabled = true; btnNext.textContent = '天道推演本年因果…';
+  try {
+    const stage = getLifeStage(game.age, game.realm);
+    const sys = [
+      '你是《修仙人生模拟器》的天道编年史引擎。请为玩家推演当前这一岁（1年）的人生经历。',
+      '【铁律：必须严格符合年龄与身份逻辑！】',
+      '- 若年龄0~5岁（蒙童期）：只能写家庭生活、启蒙读书、孩童玩耍、偶遇高人摸骨留伏笔，绝对禁止打架杀人、谈情说爱、双修或下山历练！',
+      '- 若年龄6~14岁（少年求道期）：只能写测灵根、杂役/外门苦修、藏经阁读书、同门切磋、旧货摊捡漏，绝对禁止道侣双修或斩杀金丹老祖！',
+      '- 若年龄≥15岁且已踏入修仙路：才可写下山历练、秘境夺宝、拍卖会、与同辈天骄争锋、结识道侣等剧情。',
+      WORLD_INSTRUCTIONS,
+      '输出严格JSON：{"story":"60~120字自然大白话剧情","kind":"normal或good或major或love","stonesDelta":整数(-15到35),"qiDelta":整数(0到30),"boneDelta":整数(0到1),"intDelta":整数(0到1),"bodyDelta":整数(0到1),"luckDelta":整数(0到1),"charmDelta":整数(0到1),"triggerChoice":布尔值,"choiceTitle":"若triggerChoice为true则填抉择标题","choiceDesc":"抉择情境","opt1":"选项1","opt2":"选项2","worldUpdates":[]}'
+    ].join('\n');
+    const out = await callAI(sys, {
+      age: game.age,
+      stage: stage.name,
+      name: game.name,
+      realm: REALMS[game.realm],
+      sect: game.sect,
+      stats: { bone: game.bone, int: game.int, body: game.body, luck: game.luck, charm: game.charm },
+      talents: game.talents.map(t => t.name),
+      recentHistory: game.history.slice(-4).map(h => `${h.age}岁:${h.text}`),
+      world: worldContext({ event: '岁月流转' })
+    });
+    restrictAiOutcome(out, false);
+    game.stones = Math.max(0, game.stones + (Number(out.stonesDelta) || 0));
+    game.qi = Math.max(0, Math.min(100, game.qi + (Number(out.qiDelta) || 0)));
+    game.bone += (Number(out.boneDelta) || 0);
+    game.int += (Number(out.intDelta) || 0);
+    game.body += (Number(out.bodyDelta) || 0);
+    game.luck += (Number(out.luckDelta) || 0);
+    game.charm += (Number(out.charmDelta) || 0);
+    let d = [];
+    if (out.stonesDelta) d.push(`灵石${out.stonesDelta > 0 ? '+' : ''}${out.stonesDelta}`);
+    if (out.qiDelta) d.push(`修为+${out.qiDelta}%`);
+    if (out.boneDelta) d.push(`根骨+${out.boneDelta}`);
+    if (out.intDelta) d.push(`悟性+${out.intDelta}`);
+    if (out.bodyDelta) d.push(`体魄+${out.bodyDelta}`);
+    if (out.luckDelta) d.push(`气运+${out.luckDelta}`);
+    if (out.charmDelta) d.push(`魅力+${out.charmDelta}`);
+    pushLog(game.age, out.story, out.kind || 'normal', d.join(' · '));
+
+    if (out.triggerChoice === true && out.choiceTitle && out.opt1 && out.opt2) {
+      setAiChoice({ title: `${game.age}岁 · ${String(out.choiceTitle).slice(0, 80)}`, desc: String(out.choiceDesc || out.story).slice(0, 400), labels: [out.opt1, out.opt2].map(label => String(label).slice(0, 100)) });
+    } else {
+      applyWorldUpdates(out.worldUpdates);
+      markWorldTurn('year');
+    }
+    saveGame();
+  } catch (err) {
+    showToast('本年使用本地推演：' + err.message, true);
+    runLocalYear();
+    markWorldTurn('year');
+    saveGame();
+  } finally {
+    busy = false;
+    btnNext.disabled = false; btnNext.textContent = '岁月流转（+1年）';
+    renderPlay();
+  }
+}
+
+function setAiChoice(data) {
+  const effects = [
+    () => { const gain = Math.min(15, 100 - game.qi); game.qi += gain; return { kind: 'good', delta: `修为+${gain}%` }; },
+    () => { game.int += 1; return { kind: 'normal', delta: '悟性+1' }; },
+  ];
+  game.pendingChoice = {
+    title: data.title, desc: data.desc, ref: { type: 'ai', data },
+    options: data.labels.map((label, index) => ({
+      label, reqText: index === 0 ? '[修为+15%]' : '[悟性+1]', check: () => true,
+      run: () => ({ text: `你选择了「${label}」。`, ...effects[index]() }),
+    })),
+  };
+}
 function resolveOption(opt) {
+  if (busy || !game?.alive || !game.pendingChoice?.options.includes(opt)) return;
+  const choice = game.pendingChoice;
   const ok = opt.check();
   const res = ok ? opt.run() : opt.onFail();
   pushLog(game.age, res.text, res.kind, res.delta);
   game.pendingChoice = null;
+  if (checkLifespan()) return;
   saveGame();
   renderPlay();
+  return worldAfterChoice(choice, res.text, opt.label);
 }
 
 /* AI 自由输入自主破局 */
@@ -929,20 +1553,24 @@ async function handleAiCustomChoice(userText) {
     showToast('请先切到「天道模型」标签页连接大模型，即可解锁任意输入自主破局！', true);
     return;
   }
+  let resolved;
   busy = true;
   const btn = document.getElementById('btn-ai-choice');
   btn.disabled = true; btn.textContent = '天道推演中…';
   try {
     const sys = [
-      '你是《修仙人生模拟器》的天道裁判。玩家当前遇到了一个命运事件，没有选预设选项，而是自己输入了破局行动。',
-      '请结合玩家的年龄、境界、五维属性（根骨/悟性/体魄/气运/魅力）、天赋和法宝，客观推演此行动的结果（80~140字），既要有修仙小说爽感，也要遵循因果逻辑（属性太低强行装逼会吃亏甚至重伤）。',
-      '输出严格JSON：{"story":"结果叙事","kind":"good或major或love或normal","stonesDelta":整数(-30到60),"qiDelta":整数(-20到45),"boneDelta":整数(-1到2),"intDelta":整数(-1到2),"bodyDelta":整数(-1到2),"luckDelta":整数(-1到2),"charmDelta":整数(-1到2),"ageDelta":整数(-10到5),"newItem":"获得新宝物名或空字符串","died":布尔值}'
+      '你是《修仙人生模拟器》的天道裁判。玩家当前遇到了一个命运事件，自己输入了破局行动。',
+      '请结合玩家的【当前年龄、阶段、境界、五维属性、天赋和宝物】严格判定合不合理。比如六岁孩童不可能一剑斩杀筑基修士，但可以机智喊人或借用魂戒逃生；成年后属性够高才能硬刚强敌。',
+      '输出严格JSON：{"story":"80~140字结果叙事","kind":"good或major或love或normal","stonesDelta":整数(-30到60),"qiDelta":整数(-20到45),"boneDelta":整数(-1到2),"intDelta":整数(-1到2),"bodyDelta":整数(-1到2),"luckDelta":整数(-1到2),"charmDelta":整数(-1到2),"ageDelta":整数(-10到5),"newItem":"获得新宝物名或空字符串","died":布尔值}'
     ].join('\n');
+    const currentChoice = game.pendingChoice;
     const out = await callAI(sys, {
-      player: { name: game.name, age: game.age, realm: REALMS[game.realm], bone: game.bone, int: game.int, body: game.body, luck: game.luck, charm: game.charm, talents: game.talents.map(t => t.name), items: game.items },
+      player: { name: game.name, age: game.age, stage: getLifeStage(game.age, game.realm).name, realm: REALMS[game.realm], bone: game.bone, int: game.int, body: game.body, luck: game.luck, charm: game.charm, talents: game.talents.map(t => t.name), items: game.items },
       event: { title: game.pendingChoice.title, desc: game.pendingChoice.desc },
       playerAction: userText
     });
+    if (game.pendingChoice !== currentChoice) return;
+    restrictAiOutcome(out, true);
     game.stones = Math.max(0, game.stones + (Number(out.stonesDelta) || 0));
     game.qi = Math.max(0, Math.min(100, game.qi + (Number(out.qiDelta) || 0)));
     game.bone = Math.max(1, game.bone + (Number(out.boneDelta) || 0));
@@ -954,15 +1582,14 @@ async function handleAiCustomChoice(userText) {
     let deltas = [];
     if (out.stonesDelta) deltas.push(`灵石${out.stonesDelta > 0 ? '+' : ''}${out.stonesDelta}`);
     if (out.qiDelta) deltas.push(`修为${out.qiDelta > 0 ? '+' : ''}${out.qiDelta}%`);
-    if (out.newItem) { game.items.push(out.newItem); deltas.push(`得宝【${out.newItem}】`); }
+    if (out.newItem && !game.items.includes(out.newItem)) { game.items.push(out.newItem); deltas.push(`得宝【${out.newItem}】`); }
     pushLog(game.age, out.story, out.kind || 'good', deltas.join(' · '));
     game.pendingChoice = null;
     document.getElementById('ai-choice-input').value = '';
-    if (out.died) {
-      triggerEnding(false, out.story);
-      return;
-    }
+    if (out.died === true) { triggerEnding(false, out.story); return; }
+    if (checkLifespan()) return;
     saveGame();
+    resolved = { choice: currentChoice, outcome: out.story };
   } catch (err) {
     showToast('天道推演失败：' + err.message, true);
   } finally {
@@ -970,52 +1597,44 @@ async function handleAiCustomChoice(userText) {
     btn.disabled = false; btn.textContent = '自主破局';
     renderPlay();
   }
+  if (resolved) return worldAfterChoice(resolved.choice, resolved.outcome);
 }
 
 /* 冲关渡劫 */
 function attemptBreakthrough() {
-  if (game.pendingChoice) return;
-  if (game.qi < 100) {
-    showToast(`当前修为 ${game.qi}%，需圆满（100%）方可冲关渡劫！`, true);
-    return;
-  }
+  if (!canAct()) return;
+  if (game.realm === 0) { showToast('尚未引气入体，六岁测灵或十二岁机缘后方可踏入炼气期！', true); return; }
+  if (game.qi < 100) { showToast(`当前修为 ${game.qi}%，需圆满（100%）方可冲关渡劫！`, true); return; }
   const nextRealm = game.realm + 1;
-  if (nextRealm >= REALMS.length) {
-    triggerEnding(true, `历经千劫万难，你终于白日飞升，位列仙班！`);
-    return;
-  }
+  if (nextRealm >= REALMS.length) { triggerEnding(true, `历经千劫万难，你终于白日飞升，位列仙班！`); return; }
   const isMajor = [5, 8, 11, 12, 14, 15].includes(nextRealm);
   const rate = Math.min(96, 48 + game.int * 2 + game.bone * 2 + game.luck + (game.talents.some(t => t.id === 'alchemy_sage') ? 12 : 0) - (isMajor ? 18 : 0));
-  game.age += 1;
+  if (!advanceYear()) return;
   if (Math.random() * 100 < rate) {
     game.realm = nextRealm;
     game.qi = 0;
     if (isMajor) game.maxAge += 100;
-    pushLog(game.age, `九霄雷劫轰鸣而下，你祭出全部底牌硬抗天威，成功突破至【${REALMS[game.realm]}】！`, 'good', `晋升${REALMS[game.realm]}${isMajor ? ' · 寿元+100年' : ''}`);
-    if (game.realm === REALMS.length - 1) {
-      triggerEnding(true, `你渡过大乘天劫，仙门洞开，接引神光笼罩全身，终成无上真仙！`);
-      return;
-    }
+    pushLog(game.age, `九霄雷劫轰鸣而下，你祭出底牌硬抗天威，成功突破至【${REALMS[game.realm]}】！`, 'good', `晋升${REALMS[game.realm]}${isMajor ? ' · 寿元+100年' : ''}`);
+    if (game.realm === REALMS.length - 1) { triggerEnding(true, `你渡过大乘天劫，仙门洞开，接引神光笼罩全身，终成无上真仙！`); return; }
   } else {
     game.qi = 60;
     game.maxAge -= 8;
     pushLog(game.age, `天劫威力超乎想象，你肉身焦黑险些形神俱灭，虽保住性命却折损八年寿元！`, 'major', '破境失败 · 寿元-8年');
   }
-  saveGame(); renderPlay();
+  return finishYear();
 }
 
 function addOrUpdateRel(name, role, type, favor, power) {
   const existing = game.relations.find(r => r.name === name);
-  if (existing) {
-    existing.type = type; existing.favor = favor;
-  } else {
-    game.relations.push({ name, role, type, favor, power });
-  }
+  if (existing) { existing.type = type; existing.favor = favor; }
+  else { game.relations.push({ name, role, type, favor, power }); }
 }
 
-/* 结算与轮回 */
 function triggerEnding(ascended, reason) {
   game.alive = false;
+  game.pendingChoice = null;
+  delete game.worldPending;
+  game.ending = { ascended, reason };
   saveGame();
   document.getElementById('end-title').textContent = ascended ? '白日飞升 · 证道长生' : '寿终正寝 · 坐化仙逝';
   document.getElementById('end-title').style.color = ascended ? '#8f631e' : '#7a2e20';
@@ -1023,16 +1642,19 @@ function triggerEnding(ascended, reason) {
   const companions = game.relations.filter(r => r.type === '道侣').map(r => r.name).join('、') || '孤身一人';
   const enemies = game.relations.filter(r => r.type === '宿敌').map(r => r.name).join('、') || '无';
   document.getElementById('end-highlights').innerHTML = `
-    <div><strong>道号：</strong>${game.name}（享年 ${game.age} 岁）</div>
+    <div><strong>道号：</strong>${escapeText(game.name)}（享年 ${game.age} 岁）</div>
     <div><strong>最高境界：</strong>${REALMS[game.realm]}（综合战力 ${calcPower()}）</div>
-    <div><strong>此生道侣：</strong>${companions}</div>
-    <div><strong>一生宿敌：</strong>${enemies}</div>
-    <div><strong>神通法宝：</strong>${[...game.arts, ...game.items].join('、') || '两袖清风'}</div>
+    <div><strong>此生道侣：</strong>${escapeText(companions)}</div>
+    <div><strong>一生宿敌：</strong>${escapeText(enemies)}</div>
+    <div><strong>神通法宝：</strong>${escapeText([...game.arts, ...game.items].join('、') || '两袖清风')}</div>
   `;
   document.getElementById('ending-modal').hidden = false;
 }
 
 document.getElementById('btn-next-reincarnation').addEventListener('click', () => {
+  if (!game || game.alive) return;
+  const record = `${game.name} · ${game.age}岁 · ${REALMS[game.realm]} · ${game.sect}`;
+  meta.lives = [record, ...(meta.lives || [])].slice(0, 8);
   meta.count += 1;
   meta.bonusPoints = Math.min(20, (meta.bonusPoints || 0) + 2);
   saveMeta();
@@ -1048,11 +1670,17 @@ function startPlayScreen() {
   renderPlay();
 }
 
+function escapeText(value) {
+  const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  return String(value ?? '').replace(/[&<>"']/g, ch => entities[ch]);
+}
 function renderPlay() {
   if (!game) return;
+  const stage = getLifeStage(game.age, game.realm);
   document.getElementById('hud-name').textContent = game.name;
   document.getElementById('hud-realm').textContent = REALMS[game.realm];
   document.getElementById('hud-sect').textContent = game.sect;
+  document.getElementById('hud-stage').textContent = stage.name;
   document.getElementById('hud-age').textContent = `${game.age} / ${game.maxAge} 岁`;
   document.getElementById('hud-sub').textContent = `境界进度：${game.qi}% · 灵石：${game.stones} · 命格：${game.talents.map(t => t.name).join(' / ') || '无'}`;
 
@@ -1063,13 +1691,31 @@ function renderPlay() {
   document.getElementById('v-charm').textContent = game.charm;
   document.getElementById('v-power').textContent = calcPower();
 
+  const cfg = getSavedModel();
+  document.getElementById('engine-mode-label').textContent = game.worldPending ? '正在推演同期江湖…'
+    : (game.aiChronicleMode && cfg) ? `AI 世界推演 (${cfg.modelName})` : '本地世界推演';
+  for (const id of ['btn-next-year', 'btn-skip-5', 'btn-act-break', 'btn-toggle-ai-chronicle']) {
+    document.getElementById(id).disabled = busy;
+  }
+
+  // 年龄锁：幼童期不允许外出历练或进拍卖会
+  const btnExplore = document.getElementById('btn-act-explore');
+  const btnAuction = document.getElementById('btn-act-auction');
+  if (game.age < 15 || game.realm === 0) {
+    btnExplore.disabled = true; btnExplore.textContent = '外出游历(15岁开启)';
+    btnAuction.disabled = true; btnAuction.textContent = '万宝楼(15岁开启)';
+  } else {
+    btnExplore.disabled = busy; btnExplore.textContent = '外出游历(5灵石)';
+    btnAuction.disabled = busy; btnAuction.textContent = '万宝楼拍卖(30灵石)';
+  }
+
   // 编年体长卷
   const box = document.getElementById('chronicle-box');
   box.innerHTML = '';
   game.history.forEach(item => {
     const div = document.createElement('div');
     div.className = `life-entry ${item.kind}`;
-    div.innerHTML = `<span class="life-age">${item.age}岁</span>${item.text}${item.delta ? `<span class="life-delta">【${item.delta}】</span>` : ''}`;
+    div.innerHTML = `<span class="life-age">${escapeText(item.age)}岁</span>${escapeText(item.text)}${item.delta ? `<span class="life-delta">【${escapeText(item.delta)}】</span>` : ''}`;
     box.appendChild(div);
   });
   box.scrollTop = box.scrollHeight;
@@ -1080,6 +1726,7 @@ function renderPlay() {
   document.getElementById('normal-controls').hidden = hasChoice;
   if (hasChoice) {
     document.getElementById('choice-title').textContent = game.pendingChoice.title;
+    document.getElementById('choice-stage-tag').textContent = stage.name;
     document.getElementById('choice-desc').textContent = game.pendingChoice.desc;
     const optWrap = document.getElementById('choice-options');
     optWrap.innerHTML = '';
@@ -1088,25 +1735,48 @@ function renderPlay() {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'choice-btn';
-      btn.innerHTML = `<span class="choice-req ${pass ? '' : 'fail'}">${opt.reqText}</span>${opt.label}`;
+      btn.innerHTML = `<span class="choice-req ${pass ? '' : 'fail'}">${escapeText(opt.reqText)}</span>${escapeText(opt.label)}`;
       btn.onclick = () => resolveOption(opt);
       optWrap.appendChild(btn);
     });
   }
 
-  // 因果名录（道侣与宿敌）
+  // 天骄榜渲染
+  const pWrap = document.getElementById('prodigy-list');
+  pWrap.innerHTML = '';
+  (game.prodigies || []).forEach(p => {
+    const card = document.createElement('div');
+    const goal = WORLD_ACTIONS[p.worldAction]?.goal;
+    const ties = game.prodigies.filter(other => other.id !== p.id).map(other => {
+      const score = game.worldTies?.[[p.id, other.id].sort().join('/')] || 0;
+      return score >= 2 ? `${other.name}（同道）` : score <= -2 ? `${other.name}（有争端）` : '';
+    }).filter(Boolean);
+    card.className = 'slot-box';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>${escapeText(p.name)}（${escapeText(p.age)}岁 · ${escapeText(p.talent)}）</strong>
+        <span class="badge">${REALMS[p.realm]}</span>
+      </div>
+      <small>${escapeText(p.sect)} · 当前动态：${escapeText(p.status)} · 与你关系：${escapeText(p.relation)}</small>
+      ${goal ? `<small>最近目标：${escapeText(goal)} · ${p.worldProgress >= 3 ? '已完成' : '进行中'}</small>` : ''}
+      ${ties.length ? `<small>与其他天骄：${escapeText(ties.join('、'))}</small>` : ''}
+    `;
+    pWrap.appendChild(card);
+  });
+
+  // 因果名录
   const relWrap = document.getElementById('rel-list');
   relWrap.innerHTML = '';
   if (!game.relations.length) {
-    relWrap.innerHTML = '<small style="color:var(--muted)">此世暂未与修仙界大人物结下深刻因果，多去游历触发奇遇吧。</small>';
+    relWrap.innerHTML = '<small style="color:var(--muted)">此世暂未与修仙界人物结下深刻因果（成年后游历或宗门大比可结识道侣与宿敌）。</small>';
   } else {
     game.relations.forEach(r => {
       const card = document.createElement('div');
       card.className = 'slot-box';
       card.innerHTML = `
         <div style="display:flex;justify-content:space-between">
-          <strong>${r.name} · ${r.role}</strong>
-          <span style="color:${r.type === '道侣' ? 'var(--pink)' : 'var(--crimson)'};font-size:.78rem">${r.type}（好感 ${r.favor}）</span>
+          <strong>${escapeText(r.name)} · ${escapeText(r.role)}</strong>
+          <span style="color:${r.type === '道侣' ? 'var(--pink)' : 'var(--crimson)'};font-size:.78rem">${escapeText(r.type)}（好感 ${escapeText(r.favor)}）</span>
         </div>
       `;
       const row = document.createElement('div');
@@ -1115,16 +1785,17 @@ function renderPlay() {
         const bDual = document.createElement('button');
         bDual.className = 'btn pink sm'; bDual.textContent = '共参双修(+1年/+修为)';
         bDual.onclick = () => {
-          game.age += 1; game.qi = Math.min(100, game.qi + 25 + game.charm);
+          if (!advanceYear()) return;
+          game.qi = Math.min(100, game.qi + 25 + game.charm);
           pushLog(game.age, `你与道侣【${r.name}】在洞府闭关双修一载，水乳交融，修为大进！`, 'love', `修为+${25 + game.charm}%`);
-          saveGame(); renderPlay();
+          finishYear();
         };
         row.appendChild(bDual);
       } else {
         const bFight = document.createElement('button');
         bFight.className = 'btn danger sm'; bFight.textContent = '上门了断恩怨';
         bFight.onclick = () => {
-          game.age += 1;
+          if (!advanceYear()) return;
           if (calcPower() >= r.power) {
             game.stones += 80; game.relations = game.relations.filter(x => x.name !== r.name);
             pushLog(game.age, `你祭出神通斩杀宿敌【${r.name}】，彻底了结这段因果，缴获八十灵石！`, 'good', '斩杀宿敌 · 灵石+80');
@@ -1132,7 +1803,7 @@ function renderPlay() {
             game.maxAge -= 10;
             pushLog(game.age, `你实力尚逊一筹，被【${r.name}】打成重伤逃遁，寿元折损十年！`, 'major', '复仇未果 · 寿元-10年');
           }
-          saveGame(); renderPlay();
+          finishYear();
         };
         row.appendChild(bFight);
       }
@@ -1146,7 +1817,7 @@ function renderPlay() {
   aWrap.innerHTML = '';
   [...game.arts.map(a => ({ name: a, tag: '神通功法' })), ...game.items.map(i => ({ name: i, tag: '随身宝物' }))].forEach(x => {
     const box = document.createElement('div'); box.className = 'slot-box';
-    box.innerHTML = `<strong>${x.name}</strong><small>${x.tag}</small>`;
+    box.innerHTML = `<strong>${escapeText(x.name)}</strong><small>${escapeText(x.tag)}</small>`;
     aWrap.appendChild(box);
   });
   if (!aWrap.children.length) aWrap.innerHTML = '<small style="color:var(--muted)">暂无神通与法宝</small>';
@@ -1155,11 +1826,10 @@ function renderPlay() {
   tSum.innerHTML = '';
   game.talents.forEach(t => {
     const box = document.createElement('div'); box.className = 'slot-box';
-    box.innerHTML = `<strong style="color:var(--gold)">${t.name}</strong><small>${t.desc}</small>`;
+    box.innerHTML = `<strong style="color:var(--gold)">${escapeText(t.name)}</strong><small>${escapeText(t.desc)}</small>`;
     tSum.appendChild(box);
   });
 
-  const cfg = getSavedModel();
   document.getElementById('conn-badge').textContent = cfg ? `已连：${cfg.modelName}` : '未连接';
   document.getElementById('btn-disconnect').hidden = !cfg;
 }
@@ -1170,41 +1840,66 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     const v = tab.dataset.view;
-    ['life', 'relations', 'assets', 'settings'].forEach(k => {
+    ['life', 'prodigies', 'relations', 'assets', 'settings'].forEach(k => {
       document.getElementById('view-' + k).hidden = k !== v;
     });
   });
 });
 
+document.getElementById('btn-toggle-ai-chronicle').addEventListener('click', () => {
+  if (busy || !game?.alive) return;
+  if (!getSavedModel()) {
+    showToast('请先去「天道模型」标签页连接大模型，再开启 AI 世界推演！', true);
+    return;
+  }
+  game.aiChronicleMode = !game.aiChronicleMode;
+  saveGame(); renderPlay();
+  showToast(game.aiChronicleMode ? '已开启 AI 世界推演。' : '已切回本地世界推演。');
+});
+
 document.getElementById('btn-next-year').addEventListener('click', stepOneYear);
-document.getElementById('btn-skip-5').addEventListener('click', () => {
+document.getElementById('btn-skip-5').addEventListener('click', async () => {
   for (let i = 0; i < 5; i++) {
-    if (!game || !game.alive || game.pendingChoice) break;
-    stepOneYear();
+    if (!canAct()) break;
+    await stepOneYear();
   }
 });
 document.getElementById('btn-act-break').addEventListener('click', attemptBreakthrough);
 document.getElementById('btn-act-explore').addEventListener('click', () => {
+  if (!canAct()) return;
+  if (game.age < 15 || !game.realm) { showToast('年幼体弱，需满十五岁方可下山游历！', true); return; }
   if (game.stones < 5) { showToast('灵石不足 5 枚！', true); return; }
-  game.stones -= 5; game.age += 1;
-  triggerDilemmaEvent();
+  if (!advanceYear()) return;
+  game.stones -= 5;
+  if (!runMilestone() && !runLifeThread()) triggerStageDilemma('adult');
   saveGame(); renderPlay();
 });
 document.getElementById('btn-act-auction').addEventListener('click', () => {
+  if (!canAct()) return;
+  if (game.age < 15 || !game.realm) { showToast('未满十五岁不得踏入万宝楼拍卖场！', true); return; }
   if (game.stones < 30) { showToast('万宝楼验资需至少 30 枚灵石方能入场！', true); return; }
+  if (game.flags.last_auction === game.age) { showToast('本年的万宝楼拍卖已经结束。', true); return; }
+  game.flags.last_auction = game.age;
+  createAuctionChoice();
+  saveGame(); renderPlay();
+});
+
+function createAuctionChoice() {
+  const rival = game.prodigies[3] || { name: '丹辰子' };
   game.pendingChoice = {
-    title: '万宝楼 · 压轴拍卖会',
-    desc: '拍卖师掀开红布，露出一枚散发紫气的【九转筑基丹】与一卷【上古残剑谱】，包厢内多位大能纷纷叫价！',
+    ref: { type: 'auction' },
+    title: `${game.age}岁 · 万宝楼压轴拍卖会`,
+    desc: `拍卖师掀开红布，露出一枚【九转筑基丹】与一卷【上古残剑谱】，二楼包厢的「${rival.name}」率先举牌叫价！`,
     options: [
       {
-        label: '豪掷 45 灵石拍下《上古残剑谱》',
-        reqText: `[灵石≥45]`,
-        check: () => game.stones >= 45,
+        label: '豪掷 45 灵石压过天骄拍下《上古残剑谱》',
+        reqText: '[灵石≥45 · 尚未习得该剑谱]',
+        check: () => game.stones >= 45 && !game.arts.includes('《上古残剑谱》'),
         run: () => {
           game.stones -= 45; game.int += 2; game.arts.push('《上古残剑谱》');
-          return { text: '你力压群雄拍下剑谱，参悟后剑道大进！', kind: 'good', delta: '灵石-45 · 悟性+2 · 获得神通' };
+          return { text: `你力压${rival.name}拍下剑谱，参悟后剑道大进！`, kind: 'good', delta: '灵石-45 · 悟性+2 · 获得神通' };
         },
-        onFail: () => ({ text: '灵石不足，只能眼睁睁看着宝物被他人拍走。', kind: 'normal', delta: '' })
+        onFail: () => ({ text: game.arts.includes('《上古残剑谱》') ? '这卷剑谱你已经学过，便没有举牌。' : '灵石不足，只能眼睁睁看着宝物被天骄拍走。', kind: 'normal', delta: '' })
       },
       {
         label: '花费 30 灵石抢拍【九转筑基丹】',
@@ -1218,8 +1913,7 @@ document.getElementById('btn-act-auction').addEventListener('click', () => {
       }
     ]
   };
-  saveGame(); renderPlay();
-});
+}
 
 document.getElementById('ai-choice-form').addEventListener('submit', e => {
   e.preventDefault();
@@ -1227,6 +1921,7 @@ document.getElementById('ai-choice-form').addEventListener('submit', e => {
 });
 
 document.getElementById('btn-force-rebirth').addEventListener('click', () => {
+  if (busy || !game?.alive) return;
   if (window.confirm('确定要结束当前这一世，重新抽取天赋开启新轮回吗？')) {
     triggerEnding(false, `你看破红尘，主动兵解转世，只为下一世追求更高的无上大道。`);
   }
@@ -1330,21 +2025,37 @@ document.getElementById('btn-export').addEventListener('click', () => {
   window.prompt('复制下方存档码保存：', code);
 });
 document.getElementById('btn-import').addEventListener('click', () => {
+  if (busy) return;
   const code = window.prompt('粘贴存档码：');
   if (!code) return;
   try {
     const bin = atob(code.trim());
     const obj = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
-    if (obj && typeof obj.age === 'number') { game = obj; saveGame(); startPlayScreen(); showToast('存档导入成功！'); }
+    if (obj && typeof obj.age === 'number') {
+      game = obj;
+      resumeSavedGame();
+      saveGame();
+      showToast('存档导入成功！');
+    }
   } catch { showToast('存档码无效。', true); }
 });
 
-/* 启动入口 */
-if (game && game.alive) {
-  startPlayScreen();
-} else {
-  initSetupScreen();
+function resumeSavedGame() {
+  if (game.alive) {
+    document.getElementById('ending-modal').hidden = true;
+    restoreChoice();
+    startPlayScreen();
+    return resumeWorld();
+  } else {
+    game.pendingChoice = null;
+    startPlayScreen();
+    triggerEnding(game.ending?.ascended ?? (game.realm === REALMS.length - 1),
+      game.ending?.reason || game.history.at(-1)?.text || '这一世已经落幕。');
+  }
 }
+
+if (game) resumeSavedGame();
+else initSetupScreen();
 </script>
 </body>
 </html>
