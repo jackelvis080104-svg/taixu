@@ -1333,7 +1333,7 @@ const WORLD_ACTIONS = {
   cooperate: { name: '邀请同辈互换心得', goal: '结交同辈', age: 12 },
   compete: { name: '与同辈切磋争先', goal: '磨练本领', age: 15 },
 };
-const WORLD_INSTRUCTIONS = '可另返回 worldUpdates 数组，为至多两名天骄提出同期行动。每项格式 {"id":"人物ID","action":"可用行动ID","target":"另一名人物ID，仅合作或竞争需要"}。按已知目标、近期经历、年龄和关系选择，可给空数组；已结盟的两人不能直接竞争，关系紧张的两人不能直接合作。只提交提案，不得宣布突破、改年龄、安排死亡或改变玩家数值。可让人物忙自己的事。';
+const WORLD_INSTRUCTIONS = '可另返回 worldUpdates 数组，为至多两名天骄提出同期行动。每项格式 {"id":"人物ID","action":"可用行动ID","target":"另一名人物ID，仅合作或竞争需要"}。按已知目标、近期经历、年龄和关系选择，可给空数组；已结盟的两人不能直接竞争，关系紧张的两人不能直接合作。只提交提案，各字段值只写 ID，不得宣布突破、改年龄、安排死亡或改变玩家数值。可让人物忙自己的事。';
 
 function worldContext(action) {
   return {
@@ -1469,7 +1469,7 @@ async function runAiChronicleYear() {
       '- 若年龄6~14岁（少年求道期）：只能写测灵根、杂役/外门苦修、藏经阁读书、同门切磋、旧货摊捡漏，绝对禁止道侣双修或斩杀金丹老祖！',
       '- 若年龄≥15岁且已踏入修仙路：才可写下山历练、秘境夺宝、拍卖会、与同辈天骄争锋、结识道侣等剧情。',
       WORLD_INSTRUCTIONS,
-      '输出严格JSON：{"story":"60~120字自然大白话剧情","kind":"normal或good或major或love","stonesDelta":整数(-15到35),"qiDelta":整数(0到30),"boneDelta":整数(0到1),"intDelta":整数(0到1),"bodyDelta":整数(0到1),"luckDelta":整数(0到1),"charmDelta":整数(0到1),"triggerChoice":布尔值,"choiceTitle":"若triggerChoice为true则填抉择标题","choiceDesc":"抉择情境","opt1":"选项1","opt2":"选项2","worldUpdates":[]}'
+      '只输出紧凑 JSON，数值变化为零的字段可省略。不输出解释或代码围栏。格式：{"story":"60~120字自然大白话剧情","kind":"normal或good或major或love","stonesDelta":整数(-15到35),"qiDelta":整数(0到30),"boneDelta":整数(0到1),"intDelta":整数(0到1),"bodyDelta":整数(0到1),"luckDelta":整数(0到1),"charmDelta":整数(0到1),"triggerChoice":布尔值,"choiceTitle":"若triggerChoice为true则填抉择标题","choiceDesc":"抉择情境","opt1":"选项1","opt2":"选项2","worldUpdates":[]}'
     ].join('\n');
     const out = await callAI(sys, {
       age: game.age,
@@ -1561,7 +1561,7 @@ async function handleAiCustomChoice(userText) {
     const sys = [
       '你是《修仙人生模拟器》的天道裁判。玩家当前遇到了一个命运事件，自己输入了破局行动。',
       '请结合玩家的【当前年龄、阶段、境界、五维属性、天赋和宝物】严格判定合不合理。比如六岁孩童不可能一剑斩杀筑基修士，但可以机智喊人或借用魂戒逃生；成年后属性够高才能硬刚强敌。',
-      '输出严格JSON：{"story":"80~140字结果叙事","kind":"good或major或love或normal","stonesDelta":整数(-30到60),"qiDelta":整数(-20到45),"boneDelta":整数(-1到2),"intDelta":整数(-1到2),"bodyDelta":整数(-1到2),"luckDelta":整数(-1到2),"charmDelta":整数(-1到2),"ageDelta":整数(-10到5),"newItem":"获得新宝物名或空字符串","died":布尔值}'
+      '只输出紧凑 JSON，数值变化为零的字段可省略。不输出解释或代码围栏。格式：{"story":"80~140字结果叙事","kind":"good或major或love或normal","stonesDelta":整数(-30到60),"qiDelta":整数(-20到45),"boneDelta":整数(-1到2),"intDelta":整数(-1到2),"bodyDelta":整数(-1到2),"luckDelta":整数(-1到2),"charmDelta":整数(-1到2),"ageDelta":整数(-10到5),"newItem":"获得新宝物名或空字符串","died":布尔值}'
     ].join('\n');
     const currentChoice = game.pendingChoice;
     const out = await callAI(sys, {
@@ -1959,10 +1959,17 @@ function modelHttpError(status, proxy) {
   return '模型接口返回 HTTP ' + status + '。';
 }
 
-async function requestModelJson(cfg, messages, { timeoutMs = 60000, maxTokens = 900 } = {}) {
+function isGlm53(modelName) {
+  return /^glm-5\.3(?:$|-)/i.test(modelName);
+}
+
+async function requestModelJson(cfg, messages, { timeoutMs = 60000, maxTokens } = {}) {
   const targetBase = resolveTargetBase(cfg.baseUrl, cfg.proxy);
   if (!targetBase) throw new Error('请输入有效的 HTTPS 模型接口地址。');
   const origin = new URL(normalizeUrl(cfg.baseUrl)).origin;
+  const glm53 = isGlm53(cfg.modelName);
+  const outputBudget = maxTokens ?? (glm53 ? 12000 : 2048);
+  const lowEffort = origin === 'https://api.z.ai' || (origin === 'https://open.bigmodel.cn' && glm53);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   let data;
@@ -1973,9 +1980,9 @@ async function requestModelJson(cfg, messages, { timeoutMs = 60000, maxTokens = 
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + cfg.key },
         body: JSON.stringify({
-          model: cfg.modelName, messages, max_tokens: maxTokens,
+          model: cfg.modelName, messages, max_tokens: outputBudget,
           response_format: { type: 'json_object' },
-          ...(origin === 'https://api.z.ai' ? { reasoning_effort: 'low' }
+          ...(lowEffort ? { reasoning_effort: 'low' }
             : origin === 'https://api.deepseek.com' ? { thinking: { type: 'disabled' } } : {}),
         }),
         signal: controller.signal,
@@ -2007,7 +2014,9 @@ async function requestModelJson(cfg, messages, { timeoutMs = 60000, maxTokens = 
   }
   const choice = data?.choices?.[0];
   const raw = choice?.message?.content;
-  if (choice?.finish_reason === 'length') throw new Error('模型回复达到长度上限，JSON 未能完整返回。');
+  if (choice?.finish_reason === 'length') {
+    throw new Error(`模型 ${cfg.modelName} 的输出被截断（本次上限 ${outputBudget} tokens），未采用这次回复。`);
+  }
   if (typeof raw !== 'string' || !raw.trim()) throw new Error('模型未返回可用回复。');
   try {
     const result = JSON.parse(raw.trim().replace(/^\x60\x60\x60(?:json)?\s*/i, '').replace(/\x60\x60\x60\s*$/, ''));
@@ -2057,7 +2066,7 @@ document.getElementById('model-form').addEventListener('submit', async e => {
     const result = await requestModelJson(cfg, [
       { role: 'system', content: '仅输出 JSON 对象 {"ok": true}。' },
       { role: 'user', content: '验证游戏的 JSON 回复。' },
-    ], { timeoutMs: 30000, maxTokens: 256 });
+    ], { timeoutMs: 30000, maxTokens: isGlm53(cfg.modelName) ? 2048 : 512 });
     if (result.ok !== true) throw new Error('模型可访问，但未通过游戏所需的 JSON 回复测试。');
     if (cfg.proxy) localStorage.setItem(PROXY_CACHE_KEY, cfg.proxy);
     else localStorage.removeItem(PROXY_CACHE_KEY);
